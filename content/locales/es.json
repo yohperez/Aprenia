@@ -1,0 +1,475 @@
+{
+  "locale": "es",
+  "words": {
+    "dog": "perro",
+    "cat": "gato",
+    "cow": "vaca",
+    "horse": "caballo",
+    "sheep": "oveja",
+    "goat": "cabra",
+    "chicken": "gallina",
+    "bird": "pájaro",
+    "fish": "pez",
+    "rabbit": "conejo",
+    "mouse": "ratón",
+    "elephant": "elefante",
+    "lion": "león",
+    "tiger": "tigre",
+    "monkey": "mono",
+    "bear": "oso",
+    "camel": "camello",
+    "duck": "pato",
+    "frog": "rana",
+    "turtle": "tortuga",
+    "butterfly": "mariposa",
+    "bee": "abeja",
+    "ant": "hormiga",
+    "owl": "búho",
+    "penguin": "pingüino",
+    "whale": "ballena",
+    "dolphin": "delfín",
+    "giraffe": "jirafa",
+    "zebra": "cebra",
+    "fox": "zorro",
+    "snail": "caracol",
+    "crab": "cangrejo",
+    "apple": "manzana",
+    "banana": "plátano",
+    "orange": "naranja",
+    "grapes": "uvas",
+    "watermelon": "sandía",
+    "lemon": "limón",
+    "melon": "melón",
+    "cherry": "cereza",
+    "strawberry": "fresa",
+    "pineapple": "piña",
+    "mango": "mango",
+    "tomato": "tomate",
+    "carrot": "zanahoria",
+    "corn": "maíz",
+    "potato": "patata",
+    "onion": "cebolla",
+    "cucumber": "pepino",
+    "pepper": "pimiento",
+    "bread": "pan",
+    "rice": "arroz",
+    "egg": "huevo",
+    "milk": "leche",
+    "cheese": "queso",
+    "tea": "té",
+    "honey": "miel",
+    "cake": "pastel",
+    "cookie": "galleta",
+    "coconut": "coco",
+    "avocado": "aguacate",
+    "garlic": "ajo",
+    "kiwi": "kiwi",
+    "salt": "sal",
+    "sun": "sol",
+    "moon": "luna",
+    "star": "estrella",
+    "cloud": "nube",
+    "rain": "lluvia",
+    "snow": "nieve",
+    "rainbow": "arcoíris",
+    "lightning": "rayo",
+    "wind": "viento",
+    "fire": "fuego",
+    "water": "agua",
+    "tree": "árbol",
+    "flower": "flor",
+    "rose": "rosa",
+    "leaf": "hoja",
+    "cactus": "cactus",
+    "palm": "palmera",
+    "mountain": "montaña",
+    "volcano": "volcán",
+    "sea": "mar",
+    "island": "isla",
+    "desert": "desierto",
+    "world": "mundo",
+    "sunflower": "girasol",
+    "tulip": "tulipán",
+    "plant": "planta",
+    "ice": "hielo",
+    "rock": "piedra",
+    "wood": "madera",
+    "shell": "concha",
+    "herb": "hierba",
+    "clover": "trébol",
+    "house": "casa",
+    "door": "puerta",
+    "window": "ventana",
+    "bed": "cama",
+    "chair": "silla",
+    "key": "llave",
+    "light_bulb": "bombilla",
+    "clock": "reloj",
+    "mirror": "espejo",
+    "broom": "escoba",
+    "bucket": "cubo",
+    "soap": "jabón",
+    "toothbrush": "cepillo de dientes",
+    "basket": "cesta",
+    "candle": "vela",
+    "sofa": "sofá",
+    "bathtub": "bañera",
+    "shower": "ducha",
+    "cup": "taza",
+    "spoon": "cuchara",
+    "plate": "plato",
+    "umbrella": "paraguas",
+    "box": "caja",
+    "gift": "regalo",
+    "balloon": "globo",
+    "teddy_bear": "peluche",
+    "pot": "olla",
+    "scissors": "tijeras",
+    "thread": "hilo",
+    "needle": "aguja",
+    "sponge": "esponja",
+    "picture": "cuadro",
+    "book": "libro",
+    "notebook": "cuaderno",
+    "pencil": "lápiz",
+    "pen": "bolígrafo",
+    "paintbrush": "pincel",
+    "ruler": "regla",
+    "set_square": "escuadra",
+    "backpack": "mochila",
+    "school": "escuela",
+    "paper": "papel",
+    "letter": "carta",
+    "calendar": "calendario",
+    "numbers": "números",
+    "map": "mapa",
+    "microscope": "microscopio",
+    "telescope": "telescopio",
+    "abacus": "ábaco",
+    "paperclip": "clip",
+    "bell": "campana",
+    "trophy": "trofeo",
+    "medal": "medalla",
+    "puzzle": "rompecabezas",
+    "paint": "pintura",
+    "music": "música",
+    "guitar": "guitarra",
+    "drum": "tambor",
+    "violin": "violín",
+    "trumpet": "trompeta",
+    "piano": "piano",
+    "ball": "pelota",
+    "kite": "cometa",
+    "dice": "dado",
+    "car": "coche",
+    "bus": "autobús",
+    "bicycle": "bicicleta",
+    "motorcycle": "moto",
+    "train": "tren",
+    "airplane": "avión",
+    "sailboat": "velero",
+    "truck": "camión",
+    "tractor": "tractor",
+    "taxi": "taxi",
+    "ambulance": "ambulancia",
+    "helicopter": "helicóptero",
+    "rocket": "cohete",
+    "scooter": "patinete",
+    "skateboard": "monopatín",
+    "bridge": "puente",
+    "road": "carretera",
+    "traffic_light": "semáforo",
+    "anchor": "ancla",
+    "canoe": "canoa",
+    "tram": "tranvía",
+    "wheel": "rueda",
+    "compass": "brújula",
+    "ticket": "billete",
+    "parachute": "paracaídas",
+    "ship": "barco",
+    "station": "estación",
+    "sled": "trineo",
+    "speedboat": "lancha",
+    "van": "furgoneta",
+    "pickup": "camioneta",
+    "ufo": "ovni",
+    "shirt": "camiseta",
+    "dress": "vestido",
+    "trousers": "pantalón",
+    "shoe": "zapato",
+    "sneaker": "zapatilla",
+    "sock": "calcetín",
+    "hat": "sombrero",
+    "cap": "gorra",
+    "scarf": "bufanda",
+    "gloves": "guantes",
+    "coat": "abrigo",
+    "glasses": "gafas",
+    "ring": "anillo",
+    "crown": "corona",
+    "purse": "monedero",
+    "handbag": "bolso",
+    "boot": "bota",
+    "sandal": "sandalia",
+    "vest": "chaleco",
+    "diamond": "diamante",
+    "tooth": "diente",
+    "eye": "ojo",
+    "ear": "oreja",
+    "nose": "nariz",
+    "hand": "mano",
+    "foot": "pie",
+    "brain": "cerebro",
+    "bone": "hueso",
+    "leg": "pierna",
+    "heart": "corazón",
+    "arm": "brazo",
+    "wool": "lana",
+    "phone": "teléfono",
+    "computer": "computadora",
+    "keyboard": "teclado",
+    "battery": "batería",
+    "plug": "enchufe",
+    "camera": "cámara",
+    "television": "televisión",
+    "radio": "radio",
+    "headphones": "auriculares",
+    "microphone": "micrófono",
+    "lock": "candado",
+    "settings": "ajustes",
+    "magnet": "imán",
+    "hammer": "martillo",
+    "wrench": "llave inglesa",
+    "screwdriver": "destornillador",
+    "flashlight": "linterna",
+    "satellite": "satélite",
+    "robot": "robot",
+    "signal": "señal",
+    "printer": "impresora",
+    "video_game": "videojuego",
+    "video_camera": "vídeo",
+    "alarm_clock": "despertador",
+    "link": "enlace",
+    "internet": "internet",
+    "email": "correo",
+    "message": "mensaje",
+    "magnifier": "lupa",
+    "bolt": "tornillo",
+    "ladder": "escalera",
+    "saw": "sierra"
+  },
+  "statements": {
+    "privacy_share_password": "Compartir tu contraseña con un amigo",
+    "privacy_long_password": "Usar una contraseña larga y difícil de adivinar",
+    "privacy_home_address": "Decirle a un desconocido en internet dónde vives",
+    "privacy_trusted_adult": "Pedir ayuda a un adulto de confianza si algo en internet te asusta",
+    "privacy_photos_strangers": "Enviar fotos tuyas a alguien que no conoces",
+    "privacy_log_out": "Cerrar sesión cuando usas un teléfono prestado",
+    "habits_official_store": "Instalar aplicaciones solo desde la tienda oficial",
+    "habits_strange_link": "Abrir un enlace de un mensaje extraño",
+    "habits_update_phone": "Actualizar el teléfono cuando te lo pide",
+    "habits_stranger_requests": "Aceptar solicitudes de amistad de desconocidos",
+    "habits_cover_screen": "Tapar la pantalla cuando escribes tu contraseña",
+    "habits_share_sms_code": "Dar el código que te llegó por SMS a quien te lo pida",
+    "scams_prize_message": "Un mensaje dice que ganaste un premio y pide tus datos",
+    "scams_check_news": "Comprobar una noticia en más de un sitio",
+    "scams_viral_video": "Creer todo lo que dice un vídeo viral",
+    "scams_secret_request": "Un desconocido en internet te pide que guardes un secreto",
+    "scams_block_report": "Bloquear y denunciar a alguien que te molesta",
+    "scams_public_wifi": "Usar un wifi público para cosas privadas"
+  },
+  "questions": {
+    "tech_internet_what": {
+      "prompt": "¿Qué es internet?",
+      "options": [
+        "Una red que conecta ordenadores y teléfonos de todo el mundo",
+        "Un programa para escribir cartas",
+        "Un tipo de cable de la luz"
+      ]
+    },
+    "tech_browser_what": {
+      "prompt": "¿Para qué sirve un navegador, como Chrome o Firefox?",
+      "options": [
+        "Para abrir páginas web",
+        "Para cargar la batería",
+        "Para hacer fotos"
+      ]
+    },
+    "tech_address_bar": {
+      "prompt": "¿Dónde escribes la dirección de una página web?",
+      "options": [
+        "En la barra de direcciones, arriba del navegador",
+        "En el fondo de pantalla",
+        "En la calculadora"
+      ]
+    },
+    "tech_link_what": {
+      "prompt": "¿Qué pasa cuando tocas un enlace?",
+      "options": [
+        "Se abre otra página",
+        "Se apaga el teléfono",
+        "Se borra todo"
+      ]
+    },
+    "tech_search_words": {
+      "prompt": "Quieres saber cómo cuidar una planta. ¿Qué escribes en el buscador?",
+      "options": [
+        "cuidar una planta",
+        "hola",
+        "123"
+      ]
+    },
+    "tech_check_sources": {
+      "prompt": "Encuentras una noticia sorprendente. ¿Qué haces?",
+      "options": [
+        "La compruebo en otras páginas fiables",
+        "La comparto enseguida",
+        "La creo sin mirar más"
+      ]
+    },
+    "ai_what": {
+      "prompt": "¿Qué es la inteligencia artificial (IA)?",
+      "options": [
+        "Programas que aprenden de muchos ejemplos para ayudar",
+        "Una persona escondida dentro del ordenador",
+        "Un robot que siempre tiene razón"
+      ]
+    },
+    "ai_mistakes": {
+      "prompt": "¿La IA puede equivocarse?",
+      "options": [
+        "Sí, por eso hay que comprobar lo que dice",
+        "No, nunca se equivoca",
+        "Solo los domingos"
+      ]
+    },
+    "ai_private_data": {
+      "prompt": "¿Qué no debes contar nunca a una IA?",
+      "options": [
+        "Tu contraseña o dónde vives",
+        "Qué tema quieres estudiar",
+        "Qué palabra no entiendes"
+      ]
+    },
+    "ai_good_use": {
+      "prompt": "¿Cuál es un buen uso de la IA para aprender?",
+      "options": [
+        "Pedir que te explique algo de otra forma",
+        "Copiar los deberes sin leerlos",
+        "Pedirle que piense siempre por ti"
+      ]
+    },
+    "ai_person": {
+      "prompt": "Hablas con un asistente en una aplicación. ¿Es una persona?",
+      "options": [
+        "Puede ser una IA, y la aplicación debe decírtelo",
+        "Siempre es una persona",
+        "Es un amigo de verdad"
+      ]
+    },
+    "ai_images": {
+      "prompt": "Ves una foto muy rara en internet. ¿Qué puede ser?",
+      "options": [
+        "Una imagen hecha o cambiada con IA",
+        "Siempre es una foto real",
+        "Un mensaje secreto para ti"
+      ]
+    },
+    "lang_sentence_drink": {
+      "prompt": "Completa la frase: Tengo sed, quiero beber ___.",
+      "options": [
+        "agua",
+        "pan",
+        "una silla"
+      ]
+    },
+    "lang_sentence_sleep": {
+      "prompt": "Completa la frase: Por la noche duermo en la ___.",
+      "options": [
+        "cama",
+        "ventana",
+        "manzana"
+      ]
+    },
+    "lang_sentence_cow": {
+      "prompt": "Completa la frase: La vaca nos da ___.",
+      "options": [
+        "leche",
+        "pan",
+        "zapatos"
+      ]
+    },
+    "lang_sentence_key": {
+      "prompt": "Completa la frase: Abro la puerta con la ___.",
+      "options": [
+        "llave",
+        "leche",
+        "nariz"
+      ]
+    },
+    "lang_sentence_eyes": {
+      "prompt": "Completa la frase: Veo con los ___.",
+      "options": [
+        "ojos",
+        "pies",
+        "oídos"
+      ]
+    },
+    "lang_sentence_write": {
+      "prompt": "Completa la frase: Escribo en el cuaderno con un ___.",
+      "options": [
+        "lápiz",
+        "plátano",
+        "caballo"
+      ]
+    },
+    "lang_read_fruits": {
+      "prompt": "Lee: «Ana tiene dos manzanas y un plátano». ¿Cuántas frutas tiene Ana?",
+      "options": [
+        "Tres",
+        "Dos",
+        "Una"
+      ]
+    },
+    "lang_read_rain": {
+      "prompt": "Lee: «Hoy llueve, así que Omar lleva paraguas». ¿Por qué lleva paraguas Omar?",
+      "options": [
+        "Porque llueve",
+        "Porque hace sol",
+        "Porque tiene hambre"
+      ]
+    },
+    "lang_read_school": {
+      "prompt": "Lee: «Lucía va a la escuela en autobús». ¿Cómo va Lucía a la escuela?",
+      "options": [
+        "En autobús",
+        "En bicicleta",
+        "Andando"
+      ]
+    },
+    "lang_read_shop": {
+      "prompt": "Lee: «Mamá compra pan y leche en la tienda». ¿Qué compra mamá?",
+      "options": [
+        "Pan y leche",
+        "Agua y huevos",
+        "Una silla"
+      ]
+    },
+    "lang_read_morning": {
+      "prompt": "Lee: «Por la mañana me lavo los dientes y desayuno». ¿Qué hago por la mañana?",
+      "options": [
+        "Me lavo los dientes y desayuno",
+        "Me voy a dormir",
+        "Juego al fútbol"
+      ]
+    },
+    "lang_read_feelings": {
+      "prompt": "Lee: «Sami perdió su pelota y está triste». ¿Cómo se siente Sami?",
+      "options": [
+        "Triste",
+        "Contento",
+        "Cansado"
+      ]
+    }
+  }
+}

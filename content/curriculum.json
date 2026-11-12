@@ -1,0 +1,383 @@
+{
+  "subjects": [
+    {
+      "id": "language",
+      "status": "live",
+      "image": "1f4d6",
+      "position": 0
+    },
+    {
+      "id": "math",
+      "status": "live",
+      "image": "1f522",
+      "position": 1
+    },
+    {
+      "id": "technology",
+      "status": "live",
+      "image": "1f4bb",
+      "position": 2
+    },
+    {
+      "id": "history",
+      "status": "soon",
+      "image": "1f3db",
+      "position": 3
+    },
+    {
+      "id": "science",
+      "status": "soon",
+      "image": "1f52c",
+      "position": 4
+    },
+    {
+      "id": "culture",
+      "status": "soon",
+      "image": "1f30d",
+      "position": 5
+    },
+    {
+      "id": "art",
+      "status": "soon",
+      "image": "1f3a8",
+      "position": 6
+    }
+  ],
+  "lessons": [
+    {
+      "id": "language-1",
+      "subject": "language",
+      "level": 1,
+      "kind": "vocabulary",
+      "items": [
+        "apple",
+        "banana",
+        "bread",
+        "water",
+        "milk",
+        "egg"
+      ]
+    },
+    {
+      "id": "language-2",
+      "subject": "language",
+      "level": 2,
+      "kind": "vocabulary",
+      "items": [
+        "dog",
+        "cat",
+        "cow",
+        "horse",
+        "chicken",
+        "fish"
+      ]
+    },
+    {
+      "id": "language-3",
+      "subject": "language",
+      "level": 3,
+      "kind": "vocabulary",
+      "items": [
+        "house",
+        "door",
+        "window",
+        "bed",
+        "chair",
+        "key"
+      ]
+    },
+    {
+      "id": "language-4",
+      "subject": "language",
+      "level": 4,
+      "kind": "vocabulary",
+      "items": [
+        "hand",
+        "foot",
+        "eye",
+        "ear",
+        "nose",
+        "tooth"
+      ]
+    },
+    {
+      "id": "language-5",
+      "subject": "language",
+      "level": 5,
+      "kind": "vocabulary",
+      "items": [
+        "book",
+        "notebook",
+        "pencil",
+        "backpack",
+        "school",
+        "ruler"
+      ]
+    },
+    {
+      "id": "language-6",
+      "subject": "language",
+      "level": 6,
+      "kind": "quiz",
+      "items": [
+        "lang_sentence_drink",
+        "lang_sentence_sleep",
+        "lang_sentence_cow",
+        "lang_sentence_key",
+        "lang_sentence_eyes",
+        "lang_sentence_write"
+      ]
+    },
+    {
+      "id": "language-7",
+      "subject": "language",
+      "level": 7,
+      "kind": "quiz",
+      "items": [
+        "lang_read_fruits",
+        "lang_read_rain",
+        "lang_read_school",
+        "lang_read_shop",
+        "lang_read_morning",
+        "lang_read_feelings"
+      ]
+    },
+    {
+      "id": "language-8",
+      "subject": "language",
+      "level": 8,
+      "kind": "vocabulary",
+      "status": "soon",
+      "items": []
+    },
+    {
+      "id": "language-9",
+      "subject": "language",
+      "level": 9,
+      "kind": "vocabulary",
+      "status": "soon",
+      "items": []
+    },
+    {
+      "id": "math-1",
+      "subject": "math",
+      "level": 1,
+      "kind": "math",
+      "items": [],
+      "math": {
+        "steps": [
+          "count5",
+          "count10",
+          "compare"
+        ],
+        "object": "apple"
+      }
+    },
+    {
+      "id": "math-2",
+      "subject": "math",
+      "level": 2,
+      "kind": "math",
+      "items": [],
+      "math": {
+        "steps": [
+          "add10",
+          "sub10"
+        ],
+        "object": "orange"
+      }
+    },
+    {
+      "id": "math-3",
+      "subject": "math",
+      "level": 3,
+      "kind": "math",
+      "items": [],
+      "math": {
+        "steps": [
+          "add20",
+          "sub20",
+          "missing20"
+        ],
+        "object": "star"
+      }
+    },
+    {
+      "id": "math-4",
+      "subject": "math",
+      "level": 4,
+      "kind": "math",
+      "items": [],
+      "math": {
+        "steps": [
+          "add100",
+          "sub100",
+          "missing100"
+        ],
+        "object": "star"
+      }
+    },
+    {
+      "id": "math-5",
+      "subject": "math",
+      "level": 5,
+      "kind": "math",
+      "items": [],
+      "math": {
+        "steps": [
+          "mul5",
+          "mul10"
+        ],
+        "object": "star"
+      }
+    },
+    {
+      "id": "math-6",
+      "subject": "math",
+      "level": 6,
+      "kind": "math",
+      "items": [],
+      "math": {
+        "steps": [
+          "div",
+          "half",
+          "problem",
+          "percent"
+        ],
+        "object": "star"
+      }
+    },
+    {
+      "id": "math-7",
+      "subject": "math",
+      "level": 7,
+      "kind": "math",
+      "status": "soon",
+      "items": []
+    },
+    {
+      "id": "math-8",
+      "subject": "math",
+      "level": 8,
+      "kind": "math",
+      "status": "soon",
+      "items": []
+    },
+    {
+      "id": "math-9",
+      "subject": "math",
+      "level": 9,
+      "kind": "math",
+      "status": "soon",
+      "items": []
+    },
+    {
+      "id": "technology-1",
+      "subject": "technology",
+      "level": 1,
+      "kind": "vocabulary",
+      "items": [
+        "phone",
+        "computer",
+        "keyboard",
+        "camera",
+        "headphones",
+        "printer"
+      ]
+    },
+    {
+      "id": "technology-2",
+      "subject": "technology",
+      "level": 2,
+      "kind": "vocabulary",
+      "items": [
+        "internet",
+        "email",
+        "message",
+        "link",
+        "magnifier",
+        "lock"
+      ]
+    },
+    {
+      "id": "technology-3",
+      "subject": "technology",
+      "level": 3,
+      "kind": "quiz",
+      "items": [
+        "tech_internet_what",
+        "tech_browser_what",
+        "tech_address_bar",
+        "tech_link_what",
+        "tech_search_words",
+        "tech_check_sources"
+      ]
+    },
+    {
+      "id": "technology-4",
+      "subject": "technology",
+      "level": 4,
+      "kind": "safety",
+      "items": [
+        "privacy_share_password",
+        "privacy_long_password",
+        "privacy_home_address",
+        "privacy_trusted_adult",
+        "privacy_photos_strangers",
+        "privacy_log_out"
+      ]
+    },
+    {
+      "id": "technology-5",
+      "subject": "technology",
+      "level": 5,
+      "kind": "quiz",
+      "items": [
+        "ai_what",
+        "ai_mistakes",
+        "ai_private_data",
+        "ai_good_use",
+        "ai_person",
+        "ai_images"
+      ]
+    },
+    {
+      "id": "technology-6",
+      "subject": "technology",
+      "level": 6,
+      "kind": "safety",
+      "items": [
+        "habits_official_store",
+        "habits_strange_link",
+        "habits_share_sms_code",
+        "scams_prize_message",
+        "scams_secret_request",
+        "scams_block_report"
+      ]
+    },
+    {
+      "id": "technology-7",
+      "subject": "technology",
+      "level": 7,
+      "kind": "vocabulary",
+      "status": "soon",
+      "items": []
+    },
+    {
+      "id": "technology-8",
+      "subject": "technology",
+      "level": 8,
+      "kind": "vocabulary",
+      "status": "soon",
+      "items": []
+    },
+    {
+      "id": "technology-9",
+      "subject": "technology",
+      "level": 9,
+      "kind": "vocabulary",
+      "status": "soon",
+      "items": []
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+import logging
+from collections.abc import Callable
+from datetime import datetime
+
+from fastapi import FastAPI, Request, Response
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
+from fastapi.staticfiles import StaticFiles
+from starlette.types import Scope
+
+from yara_api.config import Settings, get_settings
+from yara_api.db import Database, utcnow
+from yara_api.packs import PackService
+from yara_api.routers import accounts, content, progress, tutor
+from yara_api.tutor.policies import PolicyIndex, load_policies
+from yara_api.tutor.providers import TutorProvider, build_provider
+from yara_api.tutor.service import TutorService
+
+logger = logging.getLogger("yara")
+PRIVATE_PREFIXES = ("/v1/accounts", "/v1/me", "/v1/progress", "/v1/tutor")
+IMMUTABLE = "public, max-age=31536000, immutable"
+
+
+class WebFiles(StaticFiles):
+    async def get_response(self, path: str, scope: Scope) -> Response:
+        response = await super().get_response(path, scope)
+        response.headers["Cache-Control"] = IMMUTABLE if path.startswith("assets/") else "no-cache"
+        return response
+
+
+def create_app(
+    settings: Settings | None = None,
+    database: Database | None = None,
+    provider: TutorProvider | None = None,
+    clock: Callable[[], datetime] = utcnow,
+) -> FastAPI:
+    settings = settings or get_settings()
+    database = database or Database(settings.database_url)
+    policies = PolicyIndex(load_policies(settings.content_dir / "policy.json"))
+    app = FastAPI(
+        title="Yara API", version="0.1.0", docs_url="/docs" if settings.environment != "production" else None
+    )
+    app.state.settings = settings
+    app.state.database = database
+    app.state.clock = clock
+    app.state.packs = PackService()
+    app.state.policies = policies
+    app.state.tutor = TutorService(settings, provider or build_provider(settings), policies)
+
+    app.add_middleware(GZipMiddleware, minimum_size=512)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.cors_origins,
+        allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
+        allow_headers=["Authorization", "Content-Type", "If-None-Match"],
+        expose_headers=["ETag"],
+        max_age=86400,
+    )
+
+    @app.middleware("http")
+    async def private_responses(request: Request, call_next) -> Response:
+        response = await call_next(request)
+        if request.url.path.startswith(PRIVATE_PREFIXES):
+            response.headers["Cache-Control"] = "no-store"
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        return response
+
+    database_kind = database.engine.dialect.name
+    if settings.environment == "production" and database_kind == "sqlite":
+        logger.warning("SQLite in production: accounts and progress are lost on every deploy")
+
+    @app.get("/health", tags=["system"])
+    def health() -> dict[str, str]:
+        return {"status": "ok", "database": database_kind}
+
+    for module in (accounts, progress, content, tutor):
+        app.include_router(module.router)
+    if settings.web_dir and (settings.web_dir / "index.html").exists():
+        app.mount("/", WebFiles(directory=settings.web_dir, html=True), name="web")
+    return app

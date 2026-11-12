@@ -1,0 +1,43 @@
+services:
+  - type: web
+    name: yara
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: YARA_ENVIRONMENT
+        value: production
+      - key: YARA_DATABASE_URL
+        fromDatabase:
+          name: yara-db
+          property: connectionString
+      - key: YARA_RECOVERY_PEPPER
+        generateValue: true
+      - key: YARA_TRUST_PROXY_HEADERS
+        value: "true"
+      - key: YARA_GUEST_LIMIT
+        value: "300"
+      - key: YARA_RECOVER_LIMIT
+        value: "60"
+      - key: YARA_TUTOR_PROVIDER
+        value: gemini
+      - key: YARA_GEMINI_MODEL
+        value: gemini-3.5-flash-lite
+      - key: YARA_GEMINI_API_KEY
+        sync: false
+      - key: YARA_TUTOR_MODEL
+        value: claude-haiku-5-5
+      - key: YARA_ANTHROPIC_API_KEY
+        sync: false
+      - key: YARA_AZURE_SPEECH_KEY
+        sync: false
+      - key: YARA_AZURE_SPEECH_REGION
+        sync: false
+
+databases:
+  - name: yara-db
+    plan: free
+    databaseName: yara
+    user: yara
