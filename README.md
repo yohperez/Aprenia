@@ -149,7 +149,7 @@ Gracias a las personas que han contribuido al proyecto:
 - [yohperez](https://github.com/yohperez)
 - [Isabela-Tellez](https://github.com/Isabela-Tellez)
 - [iruperth](https://github.com/iruperth)
-- []
+- [lucaiaco21](https://github.com/lucaiaco21)
 
 Las contribuciones al repositorio pueden consultarse en la [página de contribuidores](https://github.com/yohperez/Yara/graphs/contributors). Si formas parte del equipo y falta tu nombre, puedes abrir un Pull Request para actualizar esta sección.
 
