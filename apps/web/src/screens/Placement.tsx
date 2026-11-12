@@ -9,7 +9,7 @@ import { say, shouldAutoSpeak } from "../lib/voice";
 import { contextFor } from "../learning/context";
 import { buildPlacementQuestion } from "../learning/exercises";
 import { nextLevel, PLACEMENT_QUESTIONS, placementResult, type PlacementAnswer } from "../learning/placement";
-import { navigate } from "../state";
+import { mode, navigate } from "../state";
 
 const ADVANCE_DELAY_MS = 450;
 
@@ -32,7 +32,7 @@ export function PlacementScreen({ source, subjectId }: { source: Pack; subjectId
   const m = t.value;
   const lessons = lessonsOf(source, subjectId);
   const top = maxLevel(source, subjectId);
-  const [level, setLevel] = useState(1);
+  const [level, setLevel] = useState(() => Math.min(top, mode.value.placementStart));
   const [answers, setAnswers] = useState<PlacementAnswer[]>([]);
   const [selected, setSelected] = useState<string | null>(null);
   const [result, setResult] = useState<number | null>(null);

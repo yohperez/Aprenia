@@ -15,7 +15,7 @@ export function SpeakButton({ text, itemId, large = false }: SpeakButtonProps) {
     <button
       type="button"
       class={large ? "speak speak-large" : "speak"}
-      onClick={() => say(text, itemId)}
+      onClick={() => say(text, { itemId })}
       aria-label={`${t.value.listen}: ${text}`}
     >
       <Icon name="speaker" size={large ? 32 : 24} />
@@ -26,6 +26,6 @@ export function SpeakButton({ text, itemId, large = false }: SpeakButtonProps) {
 export function useReadAloud(text: string | null, itemId?: string, always = false): void {
   useEffect(() => {
     if (!text) return;
-    if (always ? shouldAutoSpeak() : settings.value.readAloud) say(text, itemId);
+    if (always ? shouldAutoSpeak() : settings.value.readAloud) say(text, { itemId });
   }, [text, itemId, always]);
 }

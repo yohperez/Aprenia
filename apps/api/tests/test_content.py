@@ -1,4 +1,5 @@
 import json
+import shutil
 import unicodedata
 
 import pytest
@@ -22,16 +23,38 @@ def test_content_has_no_long_dashes(bundle):
     assert chr(0x2014) not in raw and chr(0x2013) not in raw
 
 
-def test_every_subject_has_one_lesson_per_level(bundle):
+def test_every_live_subject_has_one_live_lesson_per_level(bundle):
     live = {s["id"] for s in bundle.subjects if s["status"] == "live"}
+    assert live == {"language", "math", "technology"}
     for subject in live:
-        for level in range(1, 4):
-            ids = [
-                lesson["id"]
-                for lesson in bundle.lessons
-                if lesson["subject"] == subject and lesson["level"] == level
-            ]
-            assert ids == [f"{subject}-{level}"]
+        lessons = [
+            lesson
+            for lesson in bundle.lessons
+            if lesson["subject"] == subject and lesson.get("status", "live") == "live"
+        ]
+        assert [lesson["level"] for lesson in lessons] == list(range(1, len(lessons) + 1))
+        assert len(lessons) >= 6
+        assert all(lesson["id"] == f"{subject}-{lesson['level']}" for lesson in lessons)
+        upcoming = [
+            lesson
+            for lesson in bundle.lessons
+            if lesson["subject"] == subject and lesson.get("status") == "soon"
+        ]
+        assert upcoming and min(lesson["level"] for lesson in upcoming) > len(lessons)
+
+
+def test_quiz_questions_have_texts_in_active_languages(bundle):
+    for question in bundle.questions:
+        for locale in ("es", "ar", "en"):
+            text = bundle.locales[locale]["questions"][question["id"]]
+            assert text["prompt"].strip() and len(text["options"]) == 3
+
+
+def test_resources_are_youtube_links_for_every_live_subject(bundle):
+    for subject in ("language", "math", "technology"):
+        for locale in ("es", "ar", "en"):
+            links = [r for r in bundle.resources if r["subject"] == subject and r["locale"] == locale]
+            assert links and all(r["url"].startswith("https://www.youtube.com/") for r in links)
 
 
 def test_seeding_twice_is_a_no_op(database, bundle):
@@ -57,15 +80,35 @@ def test_pack_contains_everything_for_offline_use(client):
     assert pack["locale"] == "ur" and pack["rtl"] is True
     assert len(pack["concepts"]) == RECOVERY_WORDLIST_SIZE
     assert pack["concepts"][0] == {"id": "dog", "category": "animals", "image": "1f436", "word": "کتا"}
-    assert {s["id"] for s in pack["subjects"] if s["status"] == "live"} == {"language", "math"}
-    assert len(pack["lessons"]) == 6
+    assert {s["id"] for s in pack["subjects"] if s["status"] == "live"} == {"language", "math", "technology"}
+    assert len([lesson for lesson in pack["lessons"] if lesson["status"] == "live"]) == 19
     lesson_items = {
         item for lesson in pack["lessons"] if lesson["kind"] == "vocabulary" for item in lesson["items"]
     }
     lesson_images = {c["image"] for c in pack["concepts"] if c["id"] in lesson_items}
     assert lesson_images <= set(pack["images"])
-    assert len(pack["images"]) < 40
+    assert len(pack["images"]) < 70
     assert len(pack["statements"]) == 18
+    assert len(pack["questions"]) == 24 and {q["locale"] for q in pack["questions"]} == {"en"}
+    assert {r["locale"] for r in pack["resources"]} == {"en"}
+    assert len(pack["policies"]) == 20
+
+
+def test_pack_uses_the_learner_language_when_available(client):
+    pack = client.get("/v1/packs/ar").json()
+    assert {q["locale"] for q in pack["questions"]} == {"ar"}
+    assert {r["locale"] for r in pack["resources"]} == {"ar"}
+    assert {r["subject"] for r in pack["resources"]} == {"language", "math", "technology"}
+
+
+def test_non_youtube_resources_are_rejected(tmp_path):
+    target = tmp_path / "content"
+    shutil.copytree(CONTENT_DIR, target)
+    data = json.loads((target / "resources.json").read_text())
+    data["resources"][0]["url"] = "https://example.com/video"
+    (target / "resources.json").write_text(json.dumps(data))
+    with pytest.raises(ContentError):
+        load_bundle(target)
 
 
 def test_pack_is_compressed_and_cacheable(client):

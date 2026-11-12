@@ -1,10 +1,13 @@
 from datetime import timedelta
 
 import httpx
+from fastapi.testclient import TestClient
 from sqlalchemy import func, select
 
 from tests.conftest import auth, create_guest
 from yara_api.audio import AzureSpeech, generate_audio
+from yara_api.config import Settings
+from yara_api.main import create_app
 from yara_api.maintenance import purge
 from yara_api.models import AuthSession, ContentAudio, RateLimitHit, TutorEvent
 
@@ -81,4 +84,27 @@ def test_content_change_drops_stale_audio(database, bundle):
 
 
 def test_health(client):
+    assert client.get("/health").json() == {"status": "ok"}
+
+
+def test_postgres_urls_from_hosting_providers_use_psycopg():
+    settings = Settings(database_url="postgres://user:secret@db:5432/yara")
+    assert settings.database_url == "postgresql+psycopg://user:secret@db:5432/yara"
+
+
+def test_web_build_is_served_next_to_the_api(tmp_path, settings, database, provider, clock):
+    (tmp_path / "assets").mkdir()
+    (tmp_path / "index.html").write_text("<!doctype html><title>Yara</title>")
+    (tmp_path / "assets" / "app.js").write_text("console.log(1)")
+    app = create_app(
+        settings=settings.model_copy(update={"web_dir": tmp_path}),
+        database=database,
+        provider=provider,
+        clock=clock,
+    )
+    client = TestClient(app)
+    home = client.get("/")
+    assert home.status_code == 200 and "Yara" in home.text
+    assert home.headers["cache-control"] == "no-cache"
+    assert "immutable" in client.get("/assets/app.js").headers["cache-control"]
     assert client.get("/health").json() == {"status": "ok"}

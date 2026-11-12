@@ -1,0 +1,149 @@
+{
+  "version": 1,
+  "resources": [
+    {
+      "id": "language-es-smile",
+      "subject": "language",
+      "locale": "es",
+      "kind": "channel",
+      "title": "Smile and Learn: aprender a leer",
+      "url": "https://www.youtube.com/channel/UCCZpm6436NiU__lcBAlEZmQ"
+    },
+    {
+      "id": "language-es-search",
+      "subject": "language",
+      "locale": "es",
+      "kind": "search",
+      "title": "Vídeos: leer sílabas desde cero",
+      "url": "https://www.youtube.com/results?search_query=aprender+a+leer+s%C3%ADlabas+para+principiantes"
+    },
+    {
+      "id": "language-ar-zakaria",
+      "subject": "language",
+      "locale": "ar",
+      "kind": "channel",
+      "title": "تعلم مع زكريا: الحروف العربية",
+      "url": "https://www.youtube.com/channel/UCtlcIZVBdFPSAtCoNZsTusg"
+    },
+    {
+      "id": "language-ar-search",
+      "subject": "language",
+      "locale": "ar",
+      "kind": "search",
+      "title": "فيديوهات: تعلم الحروف العربية من الصفر",
+      "url": "https://www.youtube.com/results?search_query=%D8%AA%D8%B9%D9%84%D9%85+%D8%A7%D9%84%D8%AD%D8%B1%D9%88%D9%81+%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9+%D9%84%D9%84%D9%85%D8%A8%D8%AA%D8%AF%D8%A6%D9%8A%D9%86"
+    },
+    {
+      "id": "language-en-khankids",
+      "subject": "language",
+      "locale": "en",
+      "kind": "channel",
+      "title": "Khan Academy Kids",
+      "url": "https://www.youtube.com/@khanacademykids"
+    },
+    {
+      "id": "language-en-search",
+      "subject": "language",
+      "locale": "en",
+      "kind": "search",
+      "title": "Videos: learn to read with phonics",
+      "url": "https://www.youtube.com/results?search_query=learn+to+read+phonics+for+beginners"
+    },
+    {
+      "id": "math-es-khan",
+      "subject": "math",
+      "locale": "es",
+      "kind": "channel",
+      "title": "Khan Academy en Español",
+      "url": "https://www.youtube.com/@KhanAcademyEspanol"
+    },
+    {
+      "id": "math-es-search",
+      "subject": "math",
+      "locale": "es",
+      "kind": "search",
+      "title": "Vídeos: matemáticas básicas desde cero",
+      "url": "https://www.youtube.com/results?search_query=matem%C3%A1ticas+b%C3%A1sicas+desde+cero"
+    },
+    {
+      "id": "math-ar-search",
+      "subject": "math",
+      "locale": "ar",
+      "kind": "search",
+      "title": "فيديوهات: الرياضيات من الصفر",
+      "url": "https://www.youtube.com/results?search_query=%D8%AA%D8%B9%D9%84%D9%85+%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%D9%8A%D8%A7%D8%AA+%D9%84%D9%84%D9%85%D8%A8%D8%AA%D8%AF%D8%A6%D9%8A%D9%86+%D9%85%D9%86+%D8%A7%D9%84%D8%B5%D9%81%D8%B1"
+    },
+    {
+      "id": "math-ar-tables",
+      "subject": "math",
+      "locale": "ar",
+      "kind": "search",
+      "title": "فيديوهات: جدول الضرب",
+      "url": "https://www.youtube.com/results?search_query=%D8%AC%D8%AF%D9%88%D9%84+%D8%A7%D9%84%D8%B6%D8%B1%D8%A8+%D9%84%D9%84%D8%A3%D8%B7%D9%81%D8%A7%D9%84"
+    },
+    {
+      "id": "math-en-khan",
+      "subject": "math",
+      "locale": "en",
+      "kind": "channel",
+      "title": "Khan Academy",
+      "url": "https://www.youtube.com/@khanacademy"
+    },
+    {
+      "id": "math-en-search",
+      "subject": "math",
+      "locale": "en",
+      "kind": "search",
+      "title": "Videos: basic maths for beginners",
+      "url": "https://www.youtube.com/results?search_query=basic+math+for+beginners"
+    },
+    {
+      "id": "technology-es-gcf",
+      "subject": "technology",
+      "locale": "es",
+      "kind": "channel",
+      "title": "GCFAprendeLibre: informática básica",
+      "url": "https://www.youtube.com/@GCFAprendeLibre"
+    },
+    {
+      "id": "technology-es-search",
+      "subject": "technology",
+      "locale": "es",
+      "kind": "search",
+      "title": "Vídeos: qué es la inteligencia artificial",
+      "url": "https://www.youtube.com/results?search_query=qu%C3%A9+es+la+inteligencia+artificial+explicado+f%C3%A1cil"
+    },
+    {
+      "id": "technology-ar-internet",
+      "subject": "technology",
+      "locale": "ar",
+      "kind": "search",
+      "title": "فيديوهات: كيف تستخدم الإنترنت",
+      "url": "https://www.youtube.com/results?search_query=%D9%83%D9%8A%D9%81%D9%8A%D8%A9+%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85+%D8%A7%D9%84%D8%A5%D9%86%D8%AA%D8%B1%D9%86%D8%AA+%D9%84%D9%84%D9%85%D8%A8%D8%AA%D8%AF%D8%A6%D9%8A%D9%86"
+    },
+    {
+      "id": "technology-ar-ai",
+      "subject": "technology",
+      "locale": "ar",
+      "kind": "search",
+      "title": "فيديوهات: ما هو الذكاء الاصطناعي",
+      "url": "https://www.youtube.com/results?search_query=%D9%85%D8%A7+%D9%87%D9%88+%D8%A7%D9%84%D8%B0%D9%83%D8%A7%D8%A1+%D8%A7%D9%84%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A+%D9%84%D9%84%D9%85%D8%A8%D8%AA%D8%AF%D8%A6%D9%8A%D9%86"
+    },
+    {
+      "id": "technology-en-internet",
+      "subject": "technology",
+      "locale": "en",
+      "kind": "search",
+      "title": "Videos: internet basics for beginners",
+      "url": "https://www.youtube.com/results?search_query=internet+basics+for+beginners"
+    },
+    {
+      "id": "technology-en-ai",
+      "subject": "technology",
+      "locale": "en",
+      "kind": "search",
+      "title": "Videos: how AI works",
+      "url": "https://www.youtube.com/results?search_query=how+AI+works+for+beginners"
+    }
+  ]
+}

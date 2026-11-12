@@ -21,7 +21,11 @@ def write_progress(
     body: ProgressUpdate, account: CurrentAccount, db: DbSession, now: Now
 ) -> ProgressSnapshot:
     live_subjects = set(db.scalars(select(ContentSubject.id).where(ContentSubject.status == "live")))
-    lesson_subjects = dict(db.execute(select(ContentLesson.id, ContentLesson.subject_id)).all())
+    lesson_subjects = dict(
+        db.execute(
+            select(ContentLesson.id, ContentLesson.subject_id).where(ContentLesson.status == "live")
+        ).all()
+    )
     for item in body.subjects:
         if item.subject_id not in live_subjects:
             raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, f"Unknown subject {item.subject_id}")

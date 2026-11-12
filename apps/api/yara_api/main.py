@@ -4,6 +4,8 @@ from datetime import datetime
 from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
+from fastapi.staticfiles import StaticFiles
+from starlette.types import Scope
 
 from yara_api.config import Settings, get_settings
 from yara_api.db import Database, utcnow
@@ -14,6 +16,14 @@ from yara_api.tutor.providers import TutorProvider, build_provider
 from yara_api.tutor.service import TutorService
 
 PRIVATE_PREFIXES = ("/v1/accounts", "/v1/me", "/v1/progress", "/v1/tutor")
+IMMUTABLE = "public, max-age=31536000, immutable"
+
+
+class WebFiles(StaticFiles):
+    async def get_response(self, path: str, scope: Scope) -> Response:
+        response = await super().get_response(path, scope)
+        response.headers["Cache-Control"] = IMMUTABLE if path.startswith("assets/") else "no-cache"
+        return response
 
 
 def create_app(
@@ -59,4 +69,6 @@ def create_app(
 
     for module in (accounts, progress, content, tutor):
         app.include_router(module.router)
+    if settings.web_dir and (settings.web_dir / "index.html").exists():
+        app.mount("/", WebFiles(directory=settings.web_dir, html=True), name="web")
     return app

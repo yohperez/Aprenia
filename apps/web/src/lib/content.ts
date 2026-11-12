@@ -13,10 +13,15 @@ interface StoredPack {
 export type PackStatus = "idle" | "loading" | "ready" | "failed";
 
 export const packStatus = signal<PackStatus>(pack.value ? "ready" : "idle");
+
+export function isCurrentPack(source: Pack | null | undefined): source is Pack {
+  return Boolean(source && Array.isArray(source.questions) && Array.isArray(source.policies));
+}
 const dataUrls = new Map<string, string>();
 
 export async function loadPack(locale: ActiveLocale): Promise<void> {
-  const stored = read<StoredPack | null>(`pack.${locale}`, null);
+  const saved = read<StoredPack | null>(`pack.${locale}`, null);
+  const stored = saved && isCurrentPack(saved.pack) ? saved : null;
   if (stored) {
     pack.value = stored.pack;
     packStatus.value = "ready";
@@ -55,7 +60,15 @@ export function conceptMap(source: Pack): Map<string, Concept> {
 }
 
 export function lessonsOf(source: Pack, subjectId: string): Lesson[] {
-  return source.lessons.filter((lesson) => lesson.subject === subjectId).sort((a, b) => a.level - b.level);
+  return source.lessons
+    .filter((lesson) => lesson.subject === subjectId && lesson.status !== "soon")
+    .sort((a, b) => a.level - b.level);
+}
+
+export function upcomingLessonsOf(source: Pack, subjectId: string): Lesson[] {
+  return source.lessons
+    .filter((lesson) => lesson.subject === subjectId && lesson.status === "soon")
+    .sort((a, b) => a.level - b.level);
 }
 
 export function maxLevel(source: Pack, subjectId: string): number {

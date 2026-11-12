@@ -9,6 +9,7 @@ export interface ModeConfig {
   textScale: number;
   autoSpeak: boolean;
   freeText: boolean;
+  placementStart: number;
 }
 
 export const AGE_BANDS = [
@@ -34,12 +35,13 @@ export const MODES: Record<LearningMode, ModeConfig> = {
   early: {
     options: 2,
     vocabularyItems: 4,
-    mathQuestions: 4,
+    mathQuestions: 5,
     review: 0,
     speechRate: 0.8,
     textScale: 1.2,
     autoSpeak: true,
     freeText: false,
+    placementStart: 1,
   },
   junior: {
     options: 3,
@@ -50,36 +52,40 @@ export const MODES: Record<LearningMode, ModeConfig> = {
     textScale: 1.1,
     autoSpeak: true,
     freeText: false,
+    placementStart: 2,
   },
   teen: {
     options: 4,
     vocabularyItems: 6,
-    mathQuestions: 6,
+    mathQuestions: 8,
     review: 3,
     speechRate: 1,
     textScale: 1,
     autoSpeak: false,
     freeText: true,
+    placementStart: 4,
   },
   adult: {
     options: 4,
     vocabularyItems: 6,
-    mathQuestions: 6,
+    mathQuestions: 8,
     review: 3,
     speechRate: 1,
     textScale: 1,
     autoSpeak: false,
     freeText: true,
+    placementStart: 4,
   },
   senior: {
     options: 3,
     vocabularyItems: 6,
-    mathQuestions: 5,
+    mathQuestions: 6,
     review: 2,
     speechRate: 0.85,
     textScale: 1.25,
     autoSpeak: true,
     freeText: true,
+    placementStart: 3,
   },
 };
 

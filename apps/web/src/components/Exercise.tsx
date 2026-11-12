@@ -6,45 +6,71 @@ import { Icon } from "./Icon";
 import { Picture } from "./Picture";
 import { SpeakButton } from "./Speak";
 
-function Repeat({ image, count }: { image: string; count: number }) {
+function Repeat({ image, count, crossed = 0 }: { image: string; count: number; crossed?: number }) {
   return (
     <span class="group">
       {Array.from({ length: count }, (_, index) => (
-        <Picture key={index} name={image} size="s" />
+        <span key={index} class={index >= count - crossed ? "item is-crossed" : "item"}>
+          <Picture name={image} size="s" />
+        </span>
       ))}
     </span>
   );
 }
 
 export function VisualView({ visual, label }: { visual: Visual; label: string }) {
-  if (visual.type === "picture") {
-    return (
-      <div class="visual">
-        <Picture name={visual.image} label={label} size="xl" />
-      </div>
-    );
+  switch (visual.type) {
+    case "picture":
+      return (
+        <div class="visual">
+          <Picture name={visual.image} label={label} size="xl" />
+        </div>
+      );
+    case "count":
+      return (
+        <div class="visual visual-math" role="img" aria-label={label}>
+          <Repeat image={visual.image} count={visual.count} />
+        </div>
+      );
+    case "add":
+      return (
+        <div class="visual visual-math" role="img" aria-label={label}>
+          <Repeat image={visual.image} count={visual.a} />
+          <span class="operator" aria-hidden="true">
+            +
+          </span>
+          <Repeat image={visual.image} count={visual.b} />
+        </div>
+      );
+    case "sub":
+      return (
+        <div class="visual visual-math" role="img" aria-label={label}>
+          <Repeat image={visual.image} count={visual.a} crossed={visual.b} />
+        </div>
+      );
+    case "expr":
+      return (
+        <div class="visual">
+          <p class="expression" dir="ltr">
+            {visual.text}
+          </p>
+        </div>
+      );
+    case "text":
+      return (
+        <div class="visual visual-text">
+          {visual.image && <Picture name={visual.image} size="m" />}
+          <p dir="auto">{visual.text}</p>
+        </div>
+      );
   }
-  if (visual.type === "count") {
-    return (
-      <div class="visual visual-math" role="img" aria-label={label}>
-        <Repeat image={visual.image} count={visual.count} />
-      </div>
-    );
-  }
-  return (
-    <div class="visual visual-math" role="img" aria-label={label}>
-      <Repeat image={visual.image} count={visual.a} />
-      <span class="operator" aria-hidden="true">
-        +
-      </span>
-      <Repeat image={visual.image} count={visual.b} />
-    </div>
-  );
 }
 
 function visualLabel(visual: Visual, fallback: string): string {
   if (visual.type === "add") return `${formatNumber(visual.a)} + ${formatNumber(visual.b)}`;
+  if (visual.type === "sub") return `${formatNumber(visual.a)} - ${formatNumber(visual.b)}`;
   if (visual.type === "count") return formatNumber(visual.count);
+  if (visual.type === "expr" || visual.type === "text") return visual.text;
   return fallback;
 }
 
@@ -52,7 +78,7 @@ export function LearnView({ step, onNext }: { step: LearnStep; onNext: () => voi
   const button = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     button.current?.focus();
-    if (shouldAutoSpeak()) say(step.speech, step.itemId);
+    if (shouldAutoSpeak()) say(step.speech, { itemId: step.itemId });
   }, [step.key]);
   return (
     <>
@@ -123,7 +149,10 @@ export function QuestionView({ step, selected, reveal, onAnswer }: QuestionViewP
               class={`choice ${state}`}
               disabled={selected !== null}
               aria-label={choice.label}
-              onClick={() => onAnswer(choice.id)}
+              onClick={() => {
+                say(choice.speech ?? choice.label, { itemId: choice.audioId });
+                onAnswer(choice.id);
+              }}
             >
               <span class="choice-key" aria-hidden="true">
                 {index + 1}

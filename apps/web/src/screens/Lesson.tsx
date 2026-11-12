@@ -12,7 +12,7 @@ import { lessonsOf } from "../lib/content";
 import type { Lesson, Pack } from "../lib/types";
 import { say, shouldAutoSpeak } from "../lib/voice";
 import { contextFor, pickRandom } from "../learning/context";
-import { buildLesson, shuffle, type QuestionStep, type Step } from "../learning/exercises";
+import { buildLesson, mathQuestion, shuffle, type QueueItem, type QuestionStep } from "../learning/exercises";
 import { openLevel, PASS_SCORE } from "../learning/progress";
 import { progress } from "../state";
 
@@ -113,9 +113,12 @@ function LessonDone({
 
 function LessonRun({ source, lesson, onRepeat }: { source: Pack; lesson: Lesson; onRepeat: () => void }) {
   const m = t.value;
-  const initial = useMemo(() => buildLesson(lesson, contextFor(source)), []);
-  const totalQuestions = initial.filter((step) => step.kind === "question").length;
-  const [queue, setQueue] = useState<Step[]>(initial);
+  const context = useMemo(() => contextFor(source), []);
+  const initial = useMemo(() => buildLesson(lesson, context), []);
+  const totalQuestions = initial.filter((step) => step.kind !== "learn").length;
+  const steps = lesson.math?.steps ?? [];
+  const [queue, setQueue] = useState<QueueItem[]>(initial);
+  const [ladder, setLadder] = useState(0);
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [firstTry, setFirstTry] = useState(0);
@@ -137,33 +140,46 @@ function LessonRun({ source, lesson, onRepeat }: { source: Pack; lesson: Lesson;
 
   const advance = () => {
     setSelected(null);
-    if (index + 1 >= queue.length) finish();
-    else setIndex(index + 1);
+    const next = index + 1;
+    if (next >= queue.length) {
+      finish();
+      return;
+    }
+    const upcoming = queue[next];
+    const stepId = steps[ladder];
+    if (upcoming?.kind === "slot" && stepId) {
+      const question = mathQuestion(lesson, stepId, context, upcoming.key);
+      setQueue((items) => items.map((item, position) => (position === next ? question : item)));
+    }
+    setIndex(next);
   };
 
   const answer = (choiceId: string) => {
     if (!step || step.kind !== "question" || selected !== null) return;
     setSelected(choiceId);
     const retry = step.key.endsWith(RETRY_SUFFIX);
-    if (choiceId === step.answer) {
+    const correct = choiceId === step.answer;
+    if (step.adaptive)
+      setLadder((value) => Math.max(0, Math.min(steps.length - 1, value + (correct ? 1 : -1))));
+    if (correct) {
       if (!retry) setFirstTry((value) => value + 1);
       const line = pickRandom(m.praise) ?? "";
       setPraise(line);
       announce(line);
-      if (shouldAutoSpeak()) say(line);
+      if (shouldAutoSpeak()) say(line, { queue: true });
       return;
     }
-    if (!retry) {
+    if (!retry && !step.adaptive) {
       const choices = step.layout === "numbers" ? step.choices : shuffle(step.choices);
       setQueue((items) => [...items, { ...step, key: `${step.key}${RETRY_SUFFIX}`, choices }]);
     }
     const text = `${m.wrong} ${step.answerLabel}`;
     announce(text);
-    if (shouldAutoSpeak()) say(text);
+    if (shouldAutoSpeak()) say(text, { queue: true });
   };
 
   if (score !== null) return <LessonDone source={source} lesson={lesson} score={score} onRepeat={onRepeat} />;
-  if (!step) return null;
+  if (!step || step.kind === "slot") return null;
   const done = Math.round((index / queue.length) * 100);
   const name = m.lessons[lesson.id] ?? lesson.id;
 

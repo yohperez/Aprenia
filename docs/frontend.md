@@ -71,17 +71,16 @@ The progress screen lists each live subject with its level, finished lessons and
 | Learn | Big picture, the word, listen button | Next | concept id |
 | Pick picture | "Where is X?" spoken, 2 to 4 pictures | Tap a picture | concept id |
 | Pick word | Picture, 2 to 4 words | Tap a word | concept id |
-| Count | N objects | Tap a number | `count-N` |
-| Add | A objects + B objects | Tap a number | `add-A-B` |
+| Quiz | Question stored in the database, optional picture, 2 or 3 answers | Tap an answer | question id |
+| Safety | A situation, "is it safe?" | Safe or not safe | statement id |
+| Maths | Objects, an expression (`7 + 8 = ?`) or a short problem | Tap a number | `count-N`, `cmp-A-B`, `add-A-B`, `sub-A-B`, `mis-A-C`, `mul-A-B`, `div-A-B`, `half-N`, `pct-P-N`, `prob-A-B`, `take-A-B` |
 
-- A vocabulary lesson teaches items in pairs: learn, learn, then one picture question and one word question. It ends with a short mixed review.
-- A maths lesson shows two worked examples, then the questions.
-- Tapping an option checks it at once. A sheet slides up from the bottom:
-  - Correct: the sheet is green with a check and a random praise line in the learner's language, spoken aloud.
-  - Wrong: the sheet is red with a cross and "the correct answer is", showing the right answer, and that question comes back once at the end of the lesson.
-- The score is the share of questions right on the first try. A lesson counts as finished at 50% or more, and finishing it opens the next one.
-- The placement test has 5 questions, a staircase over levels 1 to 3 starting at 1: right goes up a level and wrong goes down. It shows no red or green, so nobody feels tested. Result: the lower of the final level and the highest level answered right, never below 1.
-- The path opens at the placed level. Lower levels stay open for review and higher ones open as lessons are finished.
+- Tapping any option says it aloud, then checks it. A correct answer shows a green sheet with a praise line. A wrong answer shows a red sheet with the correct answer, and that question comes back once at the end.
+- Maths lessons adapt. Each lesson has a ladder of steps (for example multiply by 2 to 5, then by 2 to 10). A right answer moves one step up, a wrong one moves one step down to an intermediate step.
+- The score is the share of questions right on the first try. 50% or more finishes the lesson and opens the next one.
+- The placement test has 5 questions and starts by age: level 1 for ages 5-9, 2 for 10-14, 4 for 15-59 and 3 for 60+. Right goes up a level, wrong goes down. "Start from zero" always starts at level 1.
+- Coming soon lessons appear locked at the end of each path.
+- With the goal "I need free training", the path also lists free YouTube links for that subject, in the learner's language or in English when there are none.
 
 ## Age modes
 

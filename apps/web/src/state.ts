@@ -39,8 +39,9 @@ export const settings = signal<Settings>(
 export const session = signal<Session | null>(read("session", null));
 export const profile = signal<LocalProfile>(read("profile", { ageBand: null, goal: null, dirty: false }));
 export const progress = signal<ProgressState>(read("progress", { subjects: {}, lessons: {}, pending: [] }));
+const storedPack = read<{ pack: Pack } | null>(`pack.${settings.value.locale}`, null)?.pack;
 export const pack = signal<Pack | null>(
-  read<{ pack: Pack } | null>(`pack.${settings.value.locale}`, null)?.pack ?? null,
+  storedPack && Array.isArray(storedPack.questions) ? storedPack : null,
 );
 export const online = signal(typeof navigator === "undefined" ? true : navigator.onLine);
 export const dialog = signal<Dialog>(null);

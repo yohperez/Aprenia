@@ -138,8 +138,14 @@ def test_provider_failure_is_reported_as_unavailable(client, provider):
 def test_items_must_belong_to_the_lesson(client):
     headers = learner(client, "5-9")
     assert ask(client, headers, item_id="rocket", intent="explain").status_code == 422
-    assert ask(client, headers, lesson_id="math-3", item_id="add-9-5", intent="explain").status_code == 422
-    assert ask(client, headers, lesson_id="math-3", item_id="add-2-3", intent="explain").status_code == 200
+    assert ask(client, headers, lesson_id="math-2", item_id="add-9-5", intent="explain").status_code == 422
+    assert ask(client, headers, lesson_id="math-2", item_id="add-2-3", intent="explain").status_code == 200
+    assert ask(client, headers, lesson_id="math-5", item_id="mul-7-8", intent="explain").status_code == 200
+    assert ask(client, headers, lesson_id="math-1", item_id="mul-7-8", intent="explain").status_code == 422
+    assert ask(client, headers, lesson_id="math-6", item_id="div-56-7", intent="explain").status_code == 200
+    assert ask(client, headers, lesson_id="math-6", item_id="div-57-7", intent="explain").status_code == 422
+    assert ask(client, headers, lesson_id="math-6", item_id="pct-25-80", intent="explain").status_code == 200
+    assert ask(client, headers, lesson_id="math-7", item_id="count-3", intent="explain").status_code == 422
 
 
 def test_requests_need_an_intent_or_a_question(client):
@@ -162,3 +168,17 @@ def test_policy_search_is_public(client):
     results = client.get("/v1/policies", params={"q": "contraseña privacidad", "age_band": "10-14"}).json()
     assert results[0]["id"] == "crc_art16_privacy"
     assert all(r["url"].startswith("https://") for r in results)
+
+
+def test_quiz_help_uses_the_question_stored_in_the_database(client, provider):
+    headers = learner(client, "10-14")
+    response = ask(client, headers, lesson_id="technology-5", item_id="ai_what", intent="explain")
+    assert response.json()["status"] == "ok"
+    system = provider.calls[0].system
+    assert "inteligencia artificial" in system and "Programas que aprenden" in system
+
+
+def test_maths_help_describes_the_exercise(client, provider):
+    headers = learner(client, "15-19")
+    ask(client, headers, lesson_id="math-6", item_id="prob-12-9", intent="explain")
+    assert "has 12 coins and gets 9 more. The answer is 21" in provider.calls[0].system

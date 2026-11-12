@@ -1,16 +1,22 @@
 import type { Messages } from "../i18n/es";
-import type { Concept, Lesson, MathSpec } from "../lib/types";
+import type { Concept, Lesson, MathStepId, Question, Statement } from "../lib/types";
+import { makeExercise, numberOptions, type MathExercise } from "./maths";
 import type { ModeConfig } from "./modes";
 
 export type Visual =
   | { type: "picture"; image: string }
   | { type: "count"; image: string; count: number }
-  | { type: "add"; image: string; a: number; b: number };
+  | { type: "add"; image: string; a: number; b: number }
+  | { type: "sub"; image: string; a: number; b: number }
+  | { type: "expr"; text: string }
+  | { type: "text"; text: string; image?: string };
 
 export interface Choice {
   id: string;
   label: string;
   image?: string;
+  speech?: string;
+  audioId?: string;
 }
 
 export interface LearnStep {
@@ -29,16 +35,25 @@ export interface QuestionStep {
   prompt: string;
   speech: string;
   visual: Visual | null;
-  layout: "pictures" | "words" | "numbers";
+  layout: "pictures" | "words" | "numbers" | "options" | "binary";
   choices: Choice[];
   answer: string;
   answerLabel: string;
+  adaptive?: boolean;
+}
+
+export interface MathSlot {
+  kind: "slot";
+  key: string;
 }
 
 export type Step = LearnStep | QuestionStep;
+export type QueueItem = Step | MathSlot;
 
 export interface BuildContext {
   concepts: Map<string, Concept>;
+  questions: Map<string, Question>;
+  statements: Map<string, Statement>;
   messages: Messages;
   mode: ModeConfig;
   format: (value: number) => string;
@@ -94,7 +109,12 @@ function pickPicture(
     speech: prompt,
     visual: null,
     layout: "pictures",
-    choices: options.map((option) => ({ id: option.id, label: option.word, image: option.image })),
+    choices: options.map((option) => ({
+      id: option.id,
+      label: option.word,
+      image: option.image,
+      audioId: option.id,
+    })),
     answer: concept.id,
     answerLabel: concept.word,
   };
@@ -115,15 +135,14 @@ function pickWord(
     speech: context.messages.pickWord,
     visual: { type: "picture", image: concept.image },
     layout: "words",
-    choices: options.map((option) => ({ id: option.id, label: option.word })),
+    choices: options.map((option) => ({ id: option.id, label: option.word, audioId: option.id })),
     answer: concept.id,
     answerLabel: concept.word,
   };
 }
 
 function buildVocabulary(lesson: Lesson, context: BuildContext, random: () => number): Step[] {
-  const pool = vocabularyItems(lesson, context);
-  const items = pool.slice(0, context.mode.vocabularyItems);
+  const items = vocabularyItems(lesson, context).slice(0, context.mode.vocabularyItems);
   const steps: Step[] = [];
   for (let index = 0; index < items.length; index += 2) {
     const pair = items.slice(index, index + 2);
@@ -144,91 +163,125 @@ function buildVocabulary(lesson: Lesson, context: BuildContext, random: () => nu
   return steps;
 }
 
-function randomInt(low: number, high: number, random: () => number): number {
-  return low + Math.floor(random() * (high - low + 1));
-}
-
-function numberChoices(
-  answer: number,
-  low: number,
-  high: number,
-  context: BuildContext,
-  random: () => number,
-): Choice[] {
-  const range = Array.from({ length: high - low + 1 }, (_, index) => low + index);
-  const near = range.sort((a, b) => Math.abs(a - answer) - Math.abs(b - answer) || random() - 0.5);
-  const options = shuffle(
-    [answer, ...near.filter((value) => value !== answer).slice(0, context.mode.options - 1)],
+function quizStep(question: Question, context: BuildContext, random: () => number): QuestionStep {
+  const indices = question.options.map((_, index) => index);
+  const kept = shuffle(
+    [question.answer, ...pickDistractors(indices, question.answer, context.mode.options, random)],
     random,
   );
-  return options.sort((a, b) => a - b).map((value) => ({ id: String(value), label: context.format(value) }));
+  const image = question.concept ? context.concepts.get(question.concept)?.image : undefined;
+  const answerLabel = question.options[question.answer] ?? "";
+  return {
+    kind: "question",
+    key: `quiz-${question.id}`,
+    itemId: question.id,
+    prompt: question.prompt,
+    speech: question.prompt,
+    visual: image ? { type: "picture", image } : null,
+    layout: "options",
+    choices: kept.map((index) => ({ id: String(index), label: question.options[index] ?? "" })),
+    answer: String(question.answer),
+    answerLabel,
+  };
 }
 
-function mathExercise(
-  spec: MathSpec,
-  context: BuildContext,
-  random: () => number,
-): { itemId: string; visual: Visual; answer: number } {
-  const objectImage = context.concepts.get(spec.object)?.image ?? spec.object;
-  if (spec.op === "add") {
-    const total = randomInt(Math.max(2, spec.min), spec.max, random);
-    const a = randomInt(1, total - 1, random);
-    const b = total - a;
-    return { itemId: `add-${a}-${b}`, visual: { type: "add", image: objectImage, a, b }, answer: total };
-  }
-  const count = randomInt(Math.max(1, spec.min), spec.max, random);
-  return { itemId: `count-${count}`, visual: { type: "count", image: objectImage, count }, answer: count };
+function safetyStep(statement: Statement, context: BuildContext): QuestionStep {
+  const m = context.messages;
+  return {
+    kind: "question",
+    key: `safety-${statement.id}`,
+    itemId: statement.id,
+    prompt: m.safetyPrompt,
+    speech: `${statement.text}. ${m.safetyPrompt}`,
+    visual: { type: "text", text: statement.text },
+    layout: "binary",
+    choices: [
+      { id: "safe", label: m.safe },
+      { id: "unsafe", label: m.unsafe },
+    ],
+    answer: statement.safe ? "safe" : "unsafe",
+    answerLabel: statement.safe ? m.safe : m.unsafe,
+  };
 }
 
-function mathQuestion(
-  spec: MathSpec,
+function listed<T>(ids: string[], source: Map<string, T>): T[] {
+  return ids.map((id) => source.get(id)).filter((item): item is T => item !== undefined);
+}
+
+function mathImage(lesson: Lesson, context: BuildContext): string {
+  const object = lesson.math?.object ?? "";
+  return context.concepts.get(object)?.image ?? object;
+}
+
+export function mathQuestion(
+  lesson: Lesson,
+  step: MathStepId,
   context: BuildContext,
-  random: () => number,
   key: string,
+  random: () => number = context.random ?? Math.random,
 ): QuestionStep {
-  const exercise = mathExercise(spec, context, random);
-  const prompt = spec.op === "add" ? context.messages.addPrompt : context.messages.countPrompt;
-  const low = spec.op === "add" ? Math.max(2, spec.min) : Math.max(1, spec.min);
+  const exercise: MathExercise = makeExercise(step, mathImage(lesson, context), {
+    messages: context.messages,
+    format: context.format,
+    random,
+  });
+  const values = exercise.options ?? numberOptions(exercise.answer, context.mode.options, random);
   return {
     kind: "question",
     key,
     itemId: exercise.itemId,
-    prompt,
-    speech: prompt,
+    prompt: exercise.prompt,
+    speech: exercise.speech,
     visual: exercise.visual,
     layout: "numbers",
-    choices: numberChoices(exercise.answer, low, spec.max, context, random),
+    choices: values.map((value) => ({ id: String(value), label: context.format(value) })),
     answer: String(exercise.answer),
     answerLabel: context.format(exercise.answer),
+    adaptive: true,
   };
 }
 
-function buildMath(lesson: Lesson, context: BuildContext, random: () => number): Step[] {
-  const spec = lesson.math;
-  if (!spec) return [];
-  const examples: Step[] = [0, 1].map((index) => {
-    const exercise = mathExercise(spec, context, random);
-    const word = context.format(exercise.answer);
-    return {
-      kind: "learn",
-      key: `example-${index}`,
-      itemId: exercise.itemId,
-      visual: exercise.visual,
-      word,
-      speech: word,
-    };
+function workedExample(lesson: Lesson, context: BuildContext, random: () => number): LearnStep | null {
+  const first = lesson.math?.steps[0];
+  if (!first) return null;
+  const exercise = makeExercise(first, mathImage(lesson, context), {
+    messages: context.messages,
+    format: context.format,
+    random,
   });
-  const questions = Array.from({ length: context.mode.mathQuestions }, (_, index) =>
-    mathQuestion(spec, context, random, `math-${index}`),
-  );
-  return [...examples, ...questions];
+  return {
+    kind: "learn",
+    key: "example",
+    itemId: exercise.itemId,
+    visual: exercise.worked.visual,
+    word: context.format(exercise.answer),
+    speech: exercise.worked.speech,
+  };
 }
 
-export function buildLesson(lesson: Lesson, context: BuildContext): Step[] {
+export function buildLesson(lesson: Lesson, context: BuildContext): QueueItem[] {
   const random = context.random ?? Math.random;
-  return lesson.kind === "math"
-    ? buildMath(lesson, context, random)
-    : buildVocabulary(lesson, context, random);
+  if (lesson.kind === "quiz") {
+    return shuffle(listed(lesson.items, context.questions), random)
+      .slice(0, context.mode.vocabularyItems)
+      .map((question) => quizStep(question, context, random));
+  }
+  if (lesson.kind === "safety") {
+    return shuffle(listed(lesson.items, context.statements), random)
+      .slice(0, context.mode.vocabularyItems)
+      .map((statement) => safetyStep(statement, context));
+  }
+  if (lesson.kind === "math") {
+    const example = workedExample(lesson, context, random);
+    const firstStep = lesson.math?.steps[0];
+    const slots: QueueItem[] = Array.from({ length: context.mode.mathQuestions }, (_, index) => ({
+      kind: "slot",
+      key: `math-${index}`,
+    }));
+    if (firstStep) slots[0] = mathQuestion(lesson, firstStep, context, "math-0", random);
+    return example ? [example, ...slots] : slots;
+  }
+  return buildVocabulary(lesson, context, random);
 }
 
 export function buildPlacementQuestion(
@@ -237,12 +290,24 @@ export function buildPlacementQuestion(
   index: number,
 ): QuestionStep | null {
   const random = context.random ?? Math.random;
-  if (lesson.kind === "math" && lesson.math)
-    return mathQuestion(lesson.math, context, random, `placement-${index}`);
+  const key = `placement-${index}`;
+  if (lesson.kind === "math" && lesson.math?.steps.length) {
+    const steps = lesson.math.steps;
+    const step = steps[Math.floor(random() * steps.length)] ?? steps[0];
+    return step ? mathQuestion(lesson, step, context, key, random) : null;
+  }
+  if (lesson.kind === "quiz") {
+    const question = shuffle(listed(lesson.items, context.questions), random)[0];
+    return question ? { ...quizStep(question, context, random), key } : null;
+  }
+  if (lesson.kind === "safety") {
+    const statement = shuffle(listed(lesson.items, context.statements), random)[0];
+    return statement ? { ...safetyStep(statement, context), key } : null;
+  }
   const items = vocabularyItems(lesson, context);
   const concept = shuffle(items, random)[0];
   if (!concept) return null;
   const step =
     random() < 0.5 ? pickPicture(concept, items, context, random) : pickWord(concept, items, context, random);
-  return { ...step, key: `placement-${index}` };
+  return { ...step, key };
 }

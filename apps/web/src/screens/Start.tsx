@@ -83,7 +83,7 @@ export function Words({ review = false }: { review?: boolean }) {
       <ol class="word-grid">
         {words.map((concept, index) => (
           <li key={`${concept.id}-${index}`}>
-            <button type="button" class="word-card" onClick={() => say(concept.word, concept.id)}>
+            <button type="button" class="word-card" onClick={() => say(concept.word, { itemId: concept.id })}>
               <span class="word-index">{index + 1}</span>
               <Picture name={concept.image} size="l" />
               <span class="word-text">{concept.word}</span>
@@ -124,7 +124,7 @@ export function Recover() {
   const pick = (index: number, concept: Concept) => {
     if (picked.length >= RECOVERY_LENGTH) return;
     setPicked([...picked, index]);
-    say(concept.word, concept.id);
+    say(concept.word, { itemId: concept.id });
   };
   return (
     <Screen title={m.recoverTitle} back="signin">

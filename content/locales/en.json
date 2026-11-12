@@ -277,5 +277,199 @@
     "scams_secret_request": "A stranger online asks you to keep a secret",
     "scams_block_report": "Blocking and reporting someone who bothers you",
     "scams_public_wifi": "Using public wifi for private things"
+  },
+  "questions": {
+    "tech_internet_what": {
+      "prompt": "What is the internet?",
+      "options": [
+        "A network that connects computers and phones all over the world",
+        "A program for writing letters",
+        "A kind of electric cable"
+      ]
+    },
+    "tech_browser_what": {
+      "prompt": "What is a browser, like Chrome or Firefox, for?",
+      "options": [
+        "Opening web pages",
+        "Charging the battery",
+        "Taking photos"
+      ]
+    },
+    "tech_address_bar": {
+      "prompt": "Where do you type the address of a web page?",
+      "options": [
+        "In the address bar at the top of the browser",
+        "On the wallpaper",
+        "In the calculator"
+      ]
+    },
+    "tech_link_what": {
+      "prompt": "What happens when you tap a link?",
+      "options": [
+        "Another page opens",
+        "The phone turns off",
+        "Everything is deleted"
+      ]
+    },
+    "tech_search_words": {
+      "prompt": "You want to know how to look after a plant. What do you type in the search box?",
+      "options": [
+        "look after a plant",
+        "hello",
+        "123"
+      ]
+    },
+    "tech_check_sources": {
+      "prompt": "You find a surprising news story. What do you do?",
+      "options": [
+        "Check it on other trustworthy pages",
+        "Share it right away",
+        "Believe it without looking further"
+      ]
+    },
+    "ai_what": {
+      "prompt": "What is artificial intelligence (AI)?",
+      "options": [
+        "Programs that learn from many examples to help",
+        "A person hiding inside the computer",
+        "A robot that is always right"
+      ]
+    },
+    "ai_mistakes": {
+      "prompt": "Can AI make mistakes?",
+      "options": [
+        "Yes, so you should check what it says",
+        "No, it is never wrong",
+        "Only on Sundays"
+      ]
+    },
+    "ai_private_data": {
+      "prompt": "What should you never tell an AI?",
+      "options": [
+        "Your password or where you live",
+        "Which topic you want to study",
+        "Which word you do not understand"
+      ]
+    },
+    "ai_good_use": {
+      "prompt": "What is a good way to use AI for learning?",
+      "options": [
+        "Ask it to explain something in another way",
+        "Copy homework without reading it",
+        "Ask it to always think for you"
+      ]
+    },
+    "ai_person": {
+      "prompt": "You chat with an assistant in an app. Is it a person?",
+      "options": [
+        "It may be an AI, and the app should tell you",
+        "It is always a person",
+        "It is a real friend"
+      ]
+    },
+    "ai_images": {
+      "prompt": "You see a very strange photo online. What could it be?",
+      "options": [
+        "An image made or changed with AI",
+        "It is always a real photo",
+        "A secret message for you"
+      ]
+    },
+    "lang_sentence_drink": {
+      "prompt": "Complete the sentence: I am thirsty, I want to drink ___.",
+      "options": [
+        "water",
+        "bread",
+        "a chair"
+      ]
+    },
+    "lang_sentence_sleep": {
+      "prompt": "Complete the sentence: At night I sleep in my ___.",
+      "options": [
+        "bed",
+        "window",
+        "apple"
+      ]
+    },
+    "lang_sentence_cow": {
+      "prompt": "Complete the sentence: The cow gives us ___.",
+      "options": [
+        "milk",
+        "bread",
+        "shoes"
+      ]
+    },
+    "lang_sentence_key": {
+      "prompt": "Complete the sentence: I open the door with the ___.",
+      "options": [
+        "key",
+        "milk",
+        "nose"
+      ]
+    },
+    "lang_sentence_eyes": {
+      "prompt": "Complete the sentence: I see with my ___.",
+      "options": [
+        "eyes",
+        "feet",
+        "ears"
+      ]
+    },
+    "lang_sentence_write": {
+      "prompt": "Complete the sentence: I write in my notebook with a ___.",
+      "options": [
+        "pencil",
+        "banana",
+        "horse"
+      ]
+    },
+    "lang_read_fruits": {
+      "prompt": "Read: “Ana has two apples and one banana.” How many pieces of fruit does Ana have?",
+      "options": [
+        "Three",
+        "Two",
+        "One"
+      ]
+    },
+    "lang_read_rain": {
+      "prompt": "Read: “It is raining today, so Omar takes an umbrella.” Why does Omar take an umbrella?",
+      "options": [
+        "Because it is raining",
+        "Because it is sunny",
+        "Because he is hungry"
+      ]
+    },
+    "lang_read_school": {
+      "prompt": "Read: “Lucia goes to school by bus.” How does Lucia go to school?",
+      "options": [
+        "By bus",
+        "By bike",
+        "On foot"
+      ]
+    },
+    "lang_read_shop": {
+      "prompt": "Read: “Mum buys bread and milk at the shop.” What does Mum buy?",
+      "options": [
+        "Bread and milk",
+        "Water and eggs",
+        "A chair"
+      ]
+    },
+    "lang_read_morning": {
+      "prompt": "Read: “In the morning I brush my teeth and have breakfast.” What do I do in the morning?",
+      "options": [
+        "Brush my teeth and have breakfast",
+        "Go to sleep",
+        "Play football"
+      ]
+    },
+    "lang_read_feelings": {
+      "prompt": "Read: “Sami lost his ball and he is sad.” How does Sami feel?",
+      "options": [
+        "Sad",
+        "Happy",
+        "Tired"
+      ]
+    }
   }
 }

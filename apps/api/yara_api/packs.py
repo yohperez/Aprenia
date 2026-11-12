@@ -12,11 +12,17 @@ from yara_api.models import (
     ContentConcept,
     ContentImage,
     ContentLesson,
+    ContentPolicy,
+    ContentQuestion,
+    ContentQuestionText,
+    ContentResource,
     ContentStatement,
     ContentStatementText,
     ContentSubject,
     ContentWord,
 )
+
+FALLBACK_LOCALE = "en"
 
 
 @dataclass(frozen=True)
@@ -77,7 +83,8 @@ def build_pack(session: Session, locale: str, version: str, audio: dict[str, str
     statements = session.scalars(select(ContentStatement).order_by(ContentStatement.position)).all()
     subjects = session.scalars(select(ContentSubject).order_by(ContentSubject.position)).all()
     lessons = list(session.scalars(select(ContentLesson).order_by(ContentLesson.position)))
-    needed = _lesson_images(concepts, lessons) | {s.image for s in subjects}
+    questions = list(session.scalars(select(ContentQuestion).order_by(ContentQuestion.position)))
+    needed = _lesson_images(concepts, lessons, questions) | {s.image for s in subjects}
     images = session.scalars(
         select(ContentImage).where(ContentImage.name.in_(needed)).order_by(ContentImage.name)
     ).all()
@@ -93,13 +100,21 @@ def build_pack(session: Session, locale: str, version: str, audio: dict[str, str
         "statements": [
             {"id": s.id, "set": s.set_name, "safe": s.safe, "text": texts[s.id]} for s in statements
         ],
+        "questions": _questions(session, questions, locale),
+        "resources": _resources(session, locale),
+        "policies": [
+            {"id": p.id, "title": p.title, "source": p.source, "url": p.url}
+            for p in session.scalars(select(ContentPolicy).order_by(ContentPolicy.position))
+        ],
         "images": {image.name: image.svg for image in images},
         "audio": audio,
     }
 
 
-def _lesson_images(concepts: list[ContentConcept], lessons: list[ContentLesson]) -> set[str]:
-    used: set[str] = set()
+def _lesson_images(
+    concepts: list[ContentConcept], lessons: list[ContentLesson], questions: list[ContentQuestion]
+) -> set[str]:
+    used: set[str] = {question.concept_id for question in questions if question.concept_id}
     for lesson in lessons:
         if lesson.kind == "vocabulary":
             used.update(lesson.items)
@@ -108,12 +123,53 @@ def _lesson_images(concepts: list[ContentConcept], lessons: list[ContentLesson])
     return {concept.image for concept in concepts if concept.id in used}
 
 
+def _questions(session: Session, questions: list[ContentQuestion], locale: str) -> list[dict]:
+    rows = session.scalars(
+        select(ContentQuestionText).where(ContentQuestionText.locale.in_((locale, FALLBACK_LOCALE)))
+    ).all()
+    texts = {(row.question_id, row.locale): row for row in rows}
+    result = []
+    for question in questions:
+        text = texts.get((question.id, locale)) or texts.get((question.id, FALLBACK_LOCALE))
+        if text is None:
+            continue
+        result.append(
+            {
+                "id": question.id,
+                "concept": question.concept_id,
+                "answer": question.answer,
+                "prompt": text.prompt,
+                "options": text.options,
+                "locale": text.locale,
+            }
+        )
+    return result
+
+
+def _resources(session: Session, locale: str) -> list[dict]:
+    rows = session.scalars(select(ContentResource).order_by(ContentResource.position)).all()
+    local_subjects = {row.subject_id for row in rows if row.locale == locale}
+    return [
+        {
+            "id": row.id,
+            "subject": row.subject_id,
+            "kind": row.kind,
+            "title": row.title,
+            "url": row.url,
+            "locale": row.locale,
+        }
+        for row in rows
+        if row.locale == locale or (row.locale == FALLBACK_LOCALE and row.subject_id not in local_subjects)
+    ]
+
+
 def _lesson(lesson: ContentLesson) -> dict:
     data = {
         "id": lesson.id,
         "subject": lesson.subject_id,
         "level": lesson.level,
         "kind": lesson.kind,
+        "status": lesson.status,
         "items": lesson.items,
     }
     if lesson.math:

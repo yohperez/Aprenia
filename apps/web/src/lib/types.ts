@@ -42,10 +42,27 @@ export interface ProgressSnapshot {
   lessons: LessonProgress[];
 }
 
+export type MathStepId =
+  | "count5"
+  | "count10"
+  | "compare"
+  | "add10"
+  | "sub10"
+  | "add20"
+  | "sub20"
+  | "missing20"
+  | "add100"
+  | "sub100"
+  | "missing100"
+  | "mul5"
+  | "mul10"
+  | "div"
+  | "half"
+  | "percent"
+  | "problem";
+
 export interface MathSpec {
-  op: "count" | "add";
-  min: number;
-  max: number;
+  steps: MathStepId[];
   object: string;
 }
 
@@ -53,9 +70,42 @@ export interface Lesson {
   id: string;
   subject: string;
   level: number;
-  kind: "vocabulary" | "math" | "safety";
+  kind: "vocabulary" | "math" | "safety" | "quiz";
+  status: "live" | "soon";
   items: string[];
   math?: MathSpec;
+}
+
+export interface Statement {
+  id: string;
+  set: string;
+  safe: boolean;
+  text: string;
+}
+
+export interface Question {
+  id: string;
+  concept: string | null;
+  answer: number;
+  prompt: string;
+  options: string[];
+  locale: string;
+}
+
+export interface Resource {
+  id: string;
+  subject: string;
+  kind: "channel" | "search";
+  title: string;
+  url: string;
+  locale: string;
+}
+
+export interface Policy {
+  id: string;
+  title: string;
+  source: string;
+  url: string;
 }
 
 export interface Concept {
@@ -78,6 +128,10 @@ export interface Pack {
   subjects: Subject[];
   lessons: Lesson[];
   concepts: Concept[];
+  statements: Statement[];
+  questions: Question[];
+  resources: Resource[];
+  policies: Policy[];
   images: Record<string, string>;
   audio: Record<string, string>;
 }

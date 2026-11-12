@@ -50,7 +50,7 @@ LOCALE_NAMES = {
 }
 RECOVERY_WORD_COUNT = 6
 RECOVERY_WORDLIST_SIZE = 256
-MAX_LEVEL = 3
+MAX_LEVEL = 10
 AUDIENCE_DESCRIPTIONS = {"child": "a child", "teen": "a teenager", "adult": "an adult"}
 
 

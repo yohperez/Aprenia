@@ -86,3 +86,9 @@ def test_progress_is_private_to_each_account(client):
     second = create_guest(client)["token"]
     client.put("/v1/progress", json={"lessons": [lesson()]}, headers=auth(first))
     assert client.get("/v1/progress", headers=auth(second)).json()["lessons"] == []
+
+
+def test_coming_soon_lessons_cannot_store_progress(client):
+    token = create_guest(client)["token"]
+    upcoming = lesson(lesson_id="technology-7")
+    assert client.put("/v1/progress", json={"lessons": [upcoming]}, headers=auth(token)).status_code == 422

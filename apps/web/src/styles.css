@@ -1110,6 +1110,143 @@ button:disabled {
   font-weight: 700;
 }
 
+.choices-options,
+.choices-binary {
+  grid-template-columns: 1fr;
+}
+
+.choices-options .choice {
+  justify-items: start;
+  min-block-size: 60px;
+  padding-inline: 44px 16px;
+  font-size: 1.05rem;
+  text-align: start;
+}
+
+.choices-binary .choice {
+  min-block-size: 64px;
+}
+
+.expression {
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  unicode-bidi: isolate;
+}
+
+.visual-text {
+  flex-direction: column;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.item {
+  position: relative;
+  display: inline-block;
+}
+
+.item.is-crossed {
+  opacity: 0.35;
+}
+
+.item.is-crossed::after {
+  content: "";
+  position: absolute;
+  inset-inline: -2px;
+  inset-block-start: 50%;
+  block-size: 4px;
+  border-radius: 2px;
+  background: var(--bad);
+  transform: rotate(-35deg);
+}
+
+.path-step.is-soon .path-body {
+  background: transparent;
+  border-style: dashed;
+  color: var(--muted);
+}
+
+.path-step.is-soon .path-dot {
+  border-style: dashed;
+  color: var(--muted);
+}
+
+.resources {
+  gap: 10px;
+}
+
+.resources ul {
+  inline-size: 100%;
+}
+
+.resource {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-block-size: 48px;
+  padding: 8px 12px;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  background: var(--paper);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.resource:hover {
+  border-color: var(--ink);
+}
+
+.resource .badge {
+  margin-inline-start: auto;
+}
+
+.site-footer {
+  max-inline-size: 560px;
+  margin-inline: auto;
+  padding: 20px var(--gutter) 32px;
+  border-block-start: 1px solid var(--line);
+  color: var(--muted);
+}
+
+.site-footer ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-block-end: 8px;
+}
+
+.site-footer a {
+  display: inline-block;
+  padding-block: 8px;
+  color: var(--ink);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.legal {
+  gap: 10px;
+}
+
+.legal p {
+  max-inline-size: 65ch;
+}
+
+.norms {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.norms li {
+  display: flex;
+  flex-direction: column;
+}
+
+.norms a {
+  font-weight: 700;
+}
+
 .spinner {
   inline-size: 40px;
   block-size: 40px;

@@ -160,8 +160,51 @@ class ContentLesson(Base):
     level: Mapped[int] = mapped_column(SmallInteger)
     position: Mapped[int] = mapped_column(SmallInteger)
     kind: Mapped[str] = mapped_column(String(16))
+    status: Mapped[str] = mapped_column(String(8), default="live")
     items: Mapped[list[str]] = mapped_column(JSON)
     math: Mapped[dict | None] = mapped_column(JSON)
+
+
+class ContentQuestion(Base):
+    __tablename__ = "content_questions"
+
+    id: Mapped[str] = mapped_column(String(40), primary_key=True)
+    position: Mapped[int] = mapped_column(SmallInteger)
+    answer: Mapped[int] = mapped_column(SmallInteger)
+    concept_id: Mapped[str | None] = mapped_column(ForeignKey("content_concepts.id", ondelete="SET NULL"))
+
+
+class ContentQuestionText(Base):
+    __tablename__ = "content_question_texts"
+
+    question_id: Mapped[str] = mapped_column(
+        ForeignKey("content_questions.id", ondelete="CASCADE"), primary_key=True
+    )
+    locale: Mapped[str] = mapped_column(String(8), primary_key=True)
+    prompt: Mapped[str] = mapped_column(String(400))
+    options: Mapped[list[str]] = mapped_column(JSON)
+
+
+class ContentResource(Base):
+    __tablename__ = "content_resources"
+
+    id: Mapped[str] = mapped_column(String(40), primary_key=True)
+    subject_id: Mapped[str] = mapped_column(ForeignKey("content_subjects.id", ondelete="CASCADE"))
+    locale: Mapped[str] = mapped_column(String(8))
+    kind: Mapped[str] = mapped_column(String(8))
+    title: Mapped[str] = mapped_column(String(160))
+    url: Mapped[str] = mapped_column(String(400))
+    position: Mapped[int] = mapped_column(SmallInteger)
+
+
+class ContentPolicy(Base):
+    __tablename__ = "content_policies"
+
+    id: Mapped[str] = mapped_column(String(48), primary_key=True)
+    title: Mapped[str] = mapped_column(String(200))
+    source: Mapped[str] = mapped_column(String(120))
+    url: Mapped[str] = mapped_column(String(400))
+    position: Mapped[int] = mapped_column(SmallInteger)
 
 
 class ContentAudio(Base):

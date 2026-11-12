@@ -1,14 +1,17 @@
-import re
 from dataclasses import dataclass
 
 from sqlalchemy.orm import Session
 
-from yara_api.models import ContentLesson, ContentStatement, ContentStatementText, ContentWord
+from yara_api.maths import allowed, answer_of, describe, parse_item
+from yara_api.models import (
+    ContentLesson,
+    ContentQuestion,
+    ContentQuestionText,
+    ContentStatement,
+    ContentStatementText,
+    ContentWord,
+)
 from yara_api.text import fold
-
-MATH_ITEM = re.compile(r"^(count|add|sub)-(\d{1,2})(?:-(\d{1,2}))?$")
-SYMBOLS = {"add": "+", "sub": "-"}
-OPERATION_SPECS = {"add": frozenset({"add", "mixed"}), "sub": frozenset({"subtract", "mixed"})}
 
 
 @dataclass(frozen=True)
@@ -25,9 +28,9 @@ class LessonContext:
 
 def build_context(db: Session, lesson_id: str, item_id: str, locale: str) -> LessonContext | None:
     lesson = db.get(ContentLesson, lesson_id)
-    if lesson is None:
+    if lesson is None or lesson.status != "live":
         return None
-    builder = {"vocabulary": _vocabulary, "safety": _safety, "math": _math}[lesson.kind]
+    builder = {"vocabulary": _vocabulary, "safety": _safety, "math": _math, "quiz": _quiz}[lesson.kind]
     return builder(db, lesson, item_id, locale)
 
 
@@ -63,29 +66,22 @@ def _safety(db: Session, lesson: ContentLesson, item_id: str, locale: str) -> Le
 
 
 def _math(db: Session, lesson: ContentLesson, item_id: str, locale: str) -> LessonContext | None:
-    match = MATH_ITEM.match(item_id)
-    spec = lesson.math or {}
-    if match is None:
+    item = parse_item(item_id)
+    steps = (lesson.math or {}).get("steps") or []
+    if item is None or not allowed(item, steps):
         return None
-    operation, first, second = match.group(1), int(match.group(2)), match.group(3)
-    if not _allowed(operation, first, None if second is None else int(second), spec):
+    terms = frozenset({str(item.a), str(answer_of(item)), "number", "count", "add", "plus", "minus", "times"})
+    return LessonContext(
+        lesson.id, lesson.subject_id, lesson.level, lesson.kind, item_id, describe(item), terms, None
+    )
+
+
+def _quiz(db: Session, lesson: ContentLesson, item_id: str, locale: str) -> LessonContext | None:
+    question = db.get(ContentQuestion, item_id)
+    text = db.get(ContentQuestionText, (item_id, locale)) or db.get(ContentQuestionText, (item_id, "en"))
+    if item_id not in lesson.items or question is None or text is None:
         return None
-    if operation == "count":
-        facts = f"The learner counts {first} pictures. The answer is {first}."
-    else:
-        b = int(second or 0)
-        result = first + b if operation == "add" else first - b
-        facts = f"Exercise: {first} {SYMBOLS[operation]} {b}. The answer is {result}."
-    terms = frozenset({str(first), "count", "add", "plus", "minus", "number"})
+    correct = text.options[question.answer]
+    facts = f"Question: {text.prompt} Correct answer: {correct}."
+    terms = frozenset(fold(part) for part in f"{text.prompt} {correct}".split() if len(part) > 3)
     return LessonContext(lesson.id, lesson.subject_id, lesson.level, lesson.kind, item_id, facts, terms, None)
-
-
-def _allowed(operation: str, a: int, b: int | None, spec: dict) -> bool:
-    low, high, op = spec.get("min", 0), spec.get("max", 0), spec.get("op")
-    if operation == "count":
-        return op == "count" and b is None and max(low, 1) <= a <= high
-    if b is None or op not in OPERATION_SPECS[operation]:
-        return False
-    if operation == "add":
-        return low <= a and low <= b and a + b <= high
-    return low <= b <= a <= high

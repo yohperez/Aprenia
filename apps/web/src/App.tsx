@@ -11,6 +11,7 @@ import { AgeScreen, GoalScreen, Know, Subjects } from "./screens/Onboarding";
 import { PathScreen } from "./screens/Path";
 import { PlacementScreen } from "./screens/Placement";
 import { ProgressScreen } from "./screens/Progress";
+import { Footer, Legal } from "./screens/Legal";
 import { Home, Recover, SignIn, Words } from "./screens/Start";
 import { online, pack, route, session, settings } from "./state";
 
@@ -54,6 +55,7 @@ function Content() {
   const source = pack.value;
   if (name === "") return <Home />;
   if (name === "signin") return <SignIn />;
+  if (name === "legal") return <Legal source={source} section={param} />;
   if (!source) {
     return packStatus.value === "failed" ? (
       <main class="screen center" id="main">
@@ -82,6 +84,7 @@ export function App() {
         </p>
       )}
       <Content />
+      {route.value[0] !== "lesson" && <Footer />}
       <InfoDialog />
       <LanguageDialog />
       <p class="sr-only" aria-live="polite">
