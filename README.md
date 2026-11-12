@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo-final.png" alt="Logo de Yara" width="260">
+  <img src="assets/logo_fondo.png" alt="Logo de Yara" width="260">
 </p>
 
 <h1 align="center">Yara</h1>
