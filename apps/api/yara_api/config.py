@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     environment: Literal["development", "test", "production"] = "development"
     database_url: str = "sqlite:///./yara.db"
     content_dir: Path = REPO_ROOT / "content"
-    cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:3000"])
+    cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:5173"])
     trust_proxy_headers: bool = False
 
     recovery_pepper: str = DEV_PEPPER
