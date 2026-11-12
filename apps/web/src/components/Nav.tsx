@@ -2,7 +2,7 @@ import { ACTIVE_LOCALES, SOON_LOCALES, t } from "../i18n";
 import { changeLocale } from "../lib/account";
 import { notify } from "../lib/announce";
 import { say, stopSpeaking } from "../lib/voice";
-import { dialog, session, settings } from "../state";
+import { dialog, navigate, session, settings } from "../state";
 import { Dialog } from "./Dialog";
 import { Icon } from "./Icon";
 import { SpeakButton } from "./Speak";
@@ -21,12 +21,19 @@ function toggleSound(): void {
   else stopSpeaking();
 }
 
+function goHome(event: MouseEvent): void {
+  event.preventDefault();
+  dialog.value = null;
+  navigate("");
+  window.scrollTo(0, 0);
+}
+
 export function Nav() {
   const m = t.value;
   const { colorBlind, sound, locale } = settings.value;
   return (
     <header class="nav">
-      <a class="nav-brand" href="#/" aria-label="Yara">
+      <a class="nav-brand" href="#/" aria-label={m.home} title={m.home} onClick={goHome}>
         <img src="/brand/butterfly.webp" alt="" width="40" height="30" decoding="async" />
       </a>
       <div class="nav-actions">

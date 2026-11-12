@@ -51,6 +51,17 @@ body {
   background: var(--paper);
 }
 
+#app {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100vh;
+  min-block-size: 100dvh;
+}
+
+#app > main {
+  flex: 1 0 auto;
+}
+
 h1,
 h2,
 p {
@@ -235,7 +246,6 @@ button:disabled {
 .screen.center {
   align-items: center;
   justify-content: center;
-  min-block-size: 70dvh;
   text-align: center;
 }
 
@@ -338,7 +348,6 @@ button:disabled {
 .home {
   align-items: center;
   justify-content: center;
-  min-block-size: calc(100dvh - 70px);
   text-align: center;
   gap: 24px;
 }
@@ -1194,8 +1203,9 @@ button:disabled {
 }
 
 .site-footer {
+  flex: none;
   inline-size: 100%;
-  margin-block-start: 32px;
+  margin-block-start: auto;
   padding: 28px var(--gutter) max(28px, env(safe-area-inset-bottom));
   background: var(--ink);
   color: #dfe5ff;
@@ -1241,7 +1251,6 @@ button:disabled {
 }
 
 .legal-page {
-  min-block-size: calc(100dvh - 62px);
   padding: 24px var(--gutter) 48px;
   background: var(--card);
 }

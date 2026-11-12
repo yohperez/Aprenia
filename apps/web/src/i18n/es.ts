@@ -1,6 +1,7 @@
 export const es = {
   tagline: "Aprende gratis, a tu ritmo y también sin internet.",
   start: "Empezar",
+  home: "Inicio",
   continueLearning: "Seguir aprendiendo",
   haveWords: "Tengo mis 6 palabras",
   info: "Información",

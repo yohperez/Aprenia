@@ -3,6 +3,7 @@ import type { Messages } from "./es";
 export const ar: Messages = {
   tagline: "تعلّم مجانًا، على مهلك، وحتى بدون إنترنت.",
   start: "ابدأ",
+  home: "الرئيسية",
   continueLearning: "تابع التعلّم",
   haveWords: "عندي كلماتي الست",
   info: "معلومات",
