@@ -1,4 +1,4 @@
-# Aprenia · Reglas fundacionales
+# Yara · Reglas fundacionales
 
 ## 1. Nuestra misión
 
