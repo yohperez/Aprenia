@@ -11,7 +11,13 @@
     <script>
       try {
         var s = JSON.parse(localStorage.getItem("yara.settings") || "{}");
-        var l = s.locale || ((navigator.languages || [navigator.language || ""]).some(function (x) { return x.toLowerCase().indexOf("ar") === 0; }) ? "ar" : "es");
+        var l =
+          s.locale ||
+          ((navigator.languages || [navigator.language || ""]).some(function (x) {
+            return x.toLowerCase().indexOf("ar") === 0;
+          })
+            ? "ar"
+            : "es");
         document.documentElement.lang = l;
         document.documentElement.dir = l === "ar" ? "rtl" : "ltr";
         if (s.vision === "cb") document.documentElement.dataset.vision = "cb";

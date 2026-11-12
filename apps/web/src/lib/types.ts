@@ -3,14 +3,7 @@ export type Goal = "learn_new" | "learn_tech" | "free_training" | "resume_studie
 export type Placement = "test" | "zero";
 export type TutorIntent = "explain" | "example" | "slower";
 export type TutorStatus =
-  | "ok"
-  | "off_topic"
-  | "blocked"
-  | "escalated"
-  | "limit"
-  | "unavailable"
-  | "disabled"
-  | "not_allowed";
+  "ok" | "off_topic" | "blocked" | "escalated" | "limit" | "unavailable" | "disabled" | "not_allowed";
 
 export interface Profile {
   locale: Locale;

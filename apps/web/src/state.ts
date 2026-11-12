@@ -30,7 +30,8 @@ export interface ProgressState {
 
 export type Dialog = "info" | "language" | "signin" | null;
 
-const browserLanguages = typeof navigator === "undefined" ? [] : navigator.languages ?? [navigator.language];
+const browserLanguages =
+  typeof navigator === "undefined" ? [] : (navigator.languages ?? [navigator.language]);
 
 export const settings = signal<Settings>(
   read("settings", { locale: detectLocale(browserLanguages), colorBlind: false, readAloud: false }),
@@ -38,7 +39,9 @@ export const settings = signal<Settings>(
 export const session = signal<Session | null>(read("session", null));
 export const profile = signal<LocalProfile>(read("profile", { ageBand: null, goal: null, dirty: false }));
 export const progress = signal<ProgressState>(read("progress", { subjects: {}, lessons: {}, pending: [] }));
-export const pack = signal<Pack | null>(read<{ pack: Pack } | null>(`pack.${settings.value.locale}`, null)?.pack ?? null);
+export const pack = signal<Pack | null>(
+  read<{ pack: Pack } | null>(`pack.${settings.value.locale}`, null)?.pack ?? null,
+);
 export const online = signal(typeof navigator === "undefined" ? true : navigator.onLine);
 export const dialog = signal<Dialog>(null);
 export const route = signal<string[]>(parseHash());

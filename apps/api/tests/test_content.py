@@ -19,7 +19,7 @@ def test_bundle_has_every_locale_complete(bundle):
 
 def test_content_has_no_long_dashes(bundle):
     raw = json.dumps(bundle.locales, ensure_ascii=False)
-    assert "—" not in raw and "–" not in raw
+    assert chr(0x2014) not in raw and chr(0x2013) not in raw
 
 
 def test_every_subject_has_one_lesson_per_level(bundle):

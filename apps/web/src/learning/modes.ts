@@ -31,11 +31,56 @@ export const AGE_BANDS = [
 ] as const;
 
 export const MODES: Record<LearningMode, ModeConfig> = {
-  early: { options: 2, vocabularyItems: 4, mathQuestions: 4, review: 0, speechRate: 0.8, textScale: 1.2, autoSpeak: true, freeText: false },
-  junior: { options: 3, vocabularyItems: 6, mathQuestions: 6, review: 2, speechRate: 0.9, textScale: 1.1, autoSpeak: true, freeText: false },
-  teen: { options: 4, vocabularyItems: 6, mathQuestions: 6, review: 3, speechRate: 1, textScale: 1, autoSpeak: false, freeText: true },
-  adult: { options: 4, vocabularyItems: 6, mathQuestions: 6, review: 3, speechRate: 1, textScale: 1, autoSpeak: false, freeText: true },
-  senior: { options: 3, vocabularyItems: 6, mathQuestions: 5, review: 2, speechRate: 0.85, textScale: 1.25, autoSpeak: true, freeText: true },
+  early: {
+    options: 2,
+    vocabularyItems: 4,
+    mathQuestions: 4,
+    review: 0,
+    speechRate: 0.8,
+    textScale: 1.2,
+    autoSpeak: true,
+    freeText: false,
+  },
+  junior: {
+    options: 3,
+    vocabularyItems: 6,
+    mathQuestions: 6,
+    review: 2,
+    speechRate: 0.9,
+    textScale: 1.1,
+    autoSpeak: true,
+    freeText: false,
+  },
+  teen: {
+    options: 4,
+    vocabularyItems: 6,
+    mathQuestions: 6,
+    review: 3,
+    speechRate: 1,
+    textScale: 1,
+    autoSpeak: false,
+    freeText: true,
+  },
+  adult: {
+    options: 4,
+    vocabularyItems: 6,
+    mathQuestions: 6,
+    review: 3,
+    speechRate: 1,
+    textScale: 1,
+    autoSpeak: false,
+    freeText: true,
+  },
+  senior: {
+    options: 3,
+    vocabularyItems: 6,
+    mathQuestions: 5,
+    review: 2,
+    speechRate: 0.85,
+    textScale: 1.25,
+    autoSpeak: true,
+    freeText: true,
+  },
 };
 
 export function bandStart(ageBand: string): number {
