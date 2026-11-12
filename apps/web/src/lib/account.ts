@@ -155,8 +155,11 @@ export async function deleteEverything(): Promise<void> {
 
 export function errorMessageKey(
   error: unknown,
-): "needInternet" | "tooMany" | "recoverWrong" | "somethingFailed" {
+): "needInternet" | "slowServer" | "tooMany" | "recoverWrong" | "somethingFailed" {
   if (!online.value || error instanceof TypeError) return "needInternet";
+  if (error instanceof DOMException && (error.name === "TimeoutError" || error.name === "AbortError")) {
+    return "slowServer";
+  }
   if (error instanceof ApiError && error.status === 429) return "tooMany";
   if (error instanceof ApiError && (error.status === 401 || error.status === 404)) return "recoverWrong";
   return "somethingFailed";

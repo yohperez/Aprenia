@@ -84,7 +84,7 @@ def test_content_change_drops_stale_audio(database, bundle):
 
 
 def test_health(client):
-    assert client.get("/health").json() == {"status": "ok"}
+    assert client.get("/health").json()["status"] == "ok"
 
 
 def test_postgres_urls_from_hosting_providers_use_psycopg():
@@ -107,4 +107,8 @@ def test_web_build_is_served_next_to_the_api(tmp_path, settings, database, provi
     assert home.status_code == 200 and "Yara" in home.text
     assert home.headers["cache-control"] == "no-cache"
     assert "immutable" in client.get("/assets/app.js").headers["cache-control"]
-    assert client.get("/health").json() == {"status": "ok"}
+    assert client.get("/health").json()["status"] == "ok"
+
+
+def test_health_reports_the_database_kind(client):
+    assert client.get("/health").json() == {"status": "ok", "database": "sqlite"}

@@ -45,13 +45,13 @@ export type PackResult = { status: "fresh"; pack: Pack; etag: string | null } | 
 
 export const api = {
   createGuest: (locale: Locale) =>
-    request<GuestResponse>("/v1/accounts/guest", { method: "POST", body: { locale } }),
+    request<GuestResponse>("/v1/accounts/guest", { method: "POST", body: { locale }, timeoutMs: 45000 }),
   recover: (words: number[]) =>
-    request<SessionResponse>("/v1/accounts/recover", { method: "POST", body: { words } }),
+    request<SessionResponse>("/v1/accounts/recover", { method: "POST", body: { words }, timeoutMs: 45000 }),
   updateProfile: (token: string, changes: Partial<Profile>) =>
     request<Profile>("/v1/me", { method: "PATCH", body: changes, token }),
   deleteAccount: (token: string) => request<void>("/v1/me", { method: "DELETE", token }),
-  readProgress: (token: string) => request<ProgressSnapshot>("/v1/progress", { token }),
+  readProgress: (token: string) => request<ProgressSnapshot>("/v1/progress", { token, timeoutMs: 45000 }),
   writeProgress: (token: string, subjects: SubjectProgress[], lessons: LessonProgress[]) =>
     request<ProgressSnapshot>("/v1/progress", { method: "PUT", body: { subjects, lessons }, token }),
   askTutor: (token: string, body: TutorRequest) =>

@@ -26,6 +26,7 @@ export const es = {
   needInternet: "Para esto necesitas internet. Inténtalo cuando tengas conexión.",
   somethingFailed: "Algo ha fallado. Inténtalo otra vez.",
   tooMany: "Demasiados intentos. Espera unos minutos.",
+  slowServer: "El servidor está despertando. Espera unos segundos y vuelve a intentarlo.",
   signInTitle: "Entrar en Yara",
   guest: "Entrar como invitado",
   guestHint: "Sin correo ni contraseña. Te damos 6 palabras para volver.",

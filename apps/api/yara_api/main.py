@@ -1,3 +1,4 @@
+import logging
 from collections.abc import Callable
 from datetime import datetime
 
@@ -15,6 +16,7 @@ from yara_api.tutor.policies import PolicyIndex, load_policies
 from yara_api.tutor.providers import TutorProvider, build_provider
 from yara_api.tutor.service import TutorService
 
+logger = logging.getLogger("yara")
 PRIVATE_PREFIXES = ("/v1/accounts", "/v1/me", "/v1/progress", "/v1/tutor")
 IMMUTABLE = "public, max-age=31536000, immutable"
 
@@ -63,9 +65,13 @@ def create_app(
         response.headers["X-Content-Type-Options"] = "nosniff"
         return response
 
+    database_kind = database.engine.dialect.name
+    if settings.environment == "production" and database_kind == "sqlite":
+        logger.warning("SQLite in production: accounts and progress are lost on every deploy")
+
     @app.get("/health", tags=["system"])
     def health() -> dict[str, str]:
-        return {"status": "ok"}
+        return {"status": "ok", "database": database_kind}
 
     for module in (accounts, progress, content, tutor):
         app.include_router(module.router)
