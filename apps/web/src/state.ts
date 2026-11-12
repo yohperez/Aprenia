@@ -59,11 +59,25 @@ export function navigate(path: string): void {
   else location.hash = target;
 }
 
+export const TECH_SUBJECT = "technology";
+
+export function subjectsHome(): string {
+  return profile.value.goal === "learn_tech" ? "goal" : "subjects";
+}
+
+export function subjectStart(subjectId: string): string {
+  return progress.value.subjects[subjectId] ? `path/${subjectId}` : `know/${subjectId}`;
+}
+
+export function afterGoal(): string {
+  return profile.value.goal === "learn_tech" ? subjectStart(TECH_SUBJECT) : "subjects";
+}
+
 export function nextStep(): string {
   if (!session.value) return "signin";
   if (!profile.value.ageBand) return "age";
   if (!profile.value.goal) return "goal";
-  return "subjects";
+  return afterGoal();
 }
 
 effect(() => write("settings", settings.value));

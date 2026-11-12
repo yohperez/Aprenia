@@ -5,7 +5,7 @@ import { saveSubject, updateProfile } from "../lib/account";
 import type { Goal, Subject } from "../lib/types";
 import { AGE_BANDS, bandLimits } from "../learning/modes";
 import { say } from "../lib/voice";
-import { navigate, pack, profile, progress, settings } from "../state";
+import { afterGoal, navigate, pack, profile, settings, subjectsHome, subjectStart } from "../state";
 
 const GOALS: Goal[] = ["learn_new", "learn_tech", "free_training", "resume_studies"];
 const GOAL_SUBJECTS: Record<Goal, string[]> = {
@@ -37,7 +37,7 @@ export function AgeScreen() {
               onClick={() => {
                 speakIfEnabled(label);
                 updateProfile({ ageBand: band });
-                navigate(profile.value.goal ? "subjects" : "goal");
+                navigate(profile.value.goal ? afterGoal() : "goal");
               }}
             >
               <span dir="ltr">{to ? `${from}-${to}` : `${from}+`}</span>
@@ -64,7 +64,7 @@ export function GoalScreen() {
             onClick={() => {
               speakIfEnabled(m.goals[goal]);
               updateProfile({ goal });
-              navigate("subjects");
+              navigate(afterGoal());
             }}
           >
             <strong>{m.goals[goal]}</strong>
@@ -105,7 +105,7 @@ export function Subjects() {
               disabled={!live}
               onClick={() => {
                 speakIfEnabled(name);
-                navigate(progress.value.subjects[subject.id] ? `path/${subject.id}` : `know/${subject.id}`);
+                navigate(subjectStart(subject.id));
               }}
             >
               <Picture name={subject.image} size="l" />
@@ -124,7 +124,7 @@ export function Know({ subjectId }: { subjectId: string }) {
   const m = t.value;
   const name = m.subjects[subjectId] ?? subjectId;
   return (
-    <Screen title={m.knowTitle(name)} back="subjects">
+    <Screen title={m.knowTitle(name)} back={subjectsHome()}>
       <div class="stack">
         <button type="button" class="tile tile-action" onClick={() => navigate(`placement/${subjectId}`)}>
           <strong>{m.knowYes}</strong>

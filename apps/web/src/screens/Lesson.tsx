@@ -12,7 +12,15 @@ import { lessonsOf } from "../lib/content";
 import type { Lesson, Pack } from "../lib/types";
 import { say, shouldAutoSpeak } from "../lib/voice";
 import { contextFor, pickRandom } from "../learning/context";
-import { buildLesson, mathQuestion, shuffle, type QueueItem, type QuestionStep } from "../learning/exercises";
+import {
+  buildLesson,
+  mathQuestion,
+  shuffle,
+  translateMath,
+  type QueueItem,
+  type QuestionStep,
+} from "../learning/exercises";
+import { newSeed, seeded } from "../learning/random";
 import { openLevel, PASS_SCORE } from "../learning/progress";
 import { progress } from "../state";
 
@@ -113,12 +121,15 @@ function LessonDone({
 
 function LessonRun({ source, lesson, onRepeat }: { source: Pack; lesson: Lesson; onRepeat: () => void }) {
   const m = t.value;
-  const context = useMemo(() => contextFor(source), []);
-  const initial = useMemo(() => buildLesson(lesson, context), []);
+  const [seed] = useState(newSeed);
+  const context = useMemo(() => contextFor(source), [source]);
+  const initial = useMemo(() => buildLesson(lesson, { ...context, random: seeded(seed) }), []);
   const totalQuestions = initial.filter((step) => step.kind !== "learn").length;
   const steps = lesson.math?.steps ?? [];
   const [queue, setQueue] = useState<QueueItem[]>(initial);
   const [ladder, setLadder] = useState(0);
+  const [retries, setRetries] = useState<string[]>([]);
+  const builtFor = useRef(source.locale);
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [firstTry, setFirstTry] = useState(0);
@@ -126,6 +137,27 @@ function LessonRun({ source, lesson, onRepeat }: { source: Pack; lesson: Lesson;
   const [score, setScore] = useState<number | null>(null);
   const [helpOpen, setHelpOpen] = useState(false);
   const step = queue[index];
+
+  useEffect(() => {
+    if (builtFor.current === source.locale) return;
+    builtFor.current = source.locale;
+    const rebuilt = buildLesson(lesson, { ...context, random: seeded(seed) });
+    const repeated = retries
+      .map((key) => rebuilt.find((item) => item.key === key))
+      .filter((item): item is QuestionStep => item?.kind === "question")
+      .map((item) => ({ ...item, key: `${item.key}${RETRY_SUFFIX}` }));
+    const next = [...rebuilt, ...repeated];
+    const position = Math.min(index, next.length - 1);
+    const current = next[position];
+    const stepId = steps[ladder];
+    if (current?.kind === "slot" && stepId)
+      next[position] = mathQuestion(lesson, stepId, context, current.key);
+    if (current?.kind === "question" && current.adaptive && queue[position]?.kind === "question") {
+      next[position] = translateMath(queue[position] as QuestionStep, context);
+    }
+    setQueue(next);
+    if (selected !== null) setPraise(pickRandom(m.praise) ?? "");
+  }, [source.locale]);
 
   const finish = () => {
     const value = totalQuestions ? Math.round((firstTry / totalQuestions) * 100) : 100;
@@ -172,6 +204,7 @@ function LessonRun({ source, lesson, onRepeat }: { source: Pack; lesson: Lesson;
     if (!retry && !step.adaptive) {
       const choices = step.layout === "numbers" ? step.choices : shuffle(step.choices);
       setQueue((items) => [...items, { ...step, key: `${step.key}${RETRY_SUFFIX}`, choices }]);
+      setRetries((keys) => [...keys, step.key]);
     }
     const text = `${m.wrong} ${step.answerLabel}`;
     announce(text);

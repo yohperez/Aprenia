@@ -196,6 +196,69 @@ export function makeExercise(step: MathStepId, image: string, context: MathConte
   }
 }
 
+function missing(a: number, total: number, context: MathContext): MathExercise {
+  const { messages: m, format } = context;
+  return {
+    itemId: `mis-${a}-${total}`,
+    visual: { type: "expr", text: `${format(a)} + ? = ${format(total)}` },
+    prompt: m.missingPrompt,
+    speech: `${m.missingPrompt} ${format(a)} ${m.spoken.add} ${m.spoken.what} ${m.spoken.equals} ${format(total)}`,
+    answer: total - a,
+    worked: {
+      visual: { type: "expr", text: `${format(a)} + ${format(total - a)} = ${format(total)}` },
+      speech: `${format(a)} ${m.spoken.add} ${format(total - a)} ${m.spoken.equals} ${format(total)}`,
+    },
+  };
+}
+
+export function fromItem(
+  itemId: string,
+  previous: Visual | null,
+  context: Omit<MathContext, "random">,
+): Pick<MathExercise, "prompt" | "speech" | "visual"> | null {
+  const match = /^([a-z]+)-(\d+)(?:-(\d+))?$/.exec(itemId);
+  if (!match) return null;
+  const op = match[1];
+  const a = Number(match[2]);
+  const b = Number(match[3] ?? 0);
+  const full: MathContext = { ...context, random: Math.random };
+  const { messages: m, format } = context;
+  switch (op) {
+    case "count":
+      return { prompt: m.countPrompt, speech: m.countPrompt, visual: previous };
+    case "cmp":
+      return {
+        prompt: m.comparePrompt,
+        speech: `${m.comparePrompt} ${format(a)}, ${format(b)}`,
+        visual: null,
+      };
+    case "add":
+      return previous?.type === "add"
+        ? { prompt: m.addPrompt, speech: m.addPrompt, visual: previous }
+        : expression("add", a, b, a + b, full);
+    case "sub":
+      return previous?.type === "sub"
+        ? { prompt: m.subPrompt, speech: m.subPrompt, visual: previous }
+        : expression("sub", a, b, a - b, full);
+    case "mul":
+      return expression("mul", a, b, a * b, full);
+    case "div":
+      return expression("div", a, b, b ? a / b : 0, full);
+    case "mis":
+      return missing(a, b, full);
+    case "half":
+      return textual(itemId, m.halfPrompt(format(a)), a / 2, full);
+    case "pct":
+      return textual(itemId, m.percentPrompt(format(a), format(b)), (a * b) / 100, full);
+    case "prob":
+      return textual(itemId, m.problemAdd(format(a), format(b)), a + b, full);
+    case "take":
+      return textual(itemId, m.problemTake(format(a), format(b)), a - b, full);
+    default:
+      return null;
+  }
+}
+
 export function numberOptions(answer: number, count: number, random: () => number): number[] {
   const spread = answer >= 20 ? [1, 2, 10, 5, 3] : [1, 2, 3, 4];
   const candidates = spread

@@ -1,6 +1,6 @@
 import type { Messages } from "../i18n/es";
 import type { Concept, Lesson, MathStepId, Question, Statement } from "../lib/types";
-import { makeExercise, numberOptions, type MathExercise } from "./maths";
+import { fromItem, makeExercise, numberOptions, type MathExercise } from "./maths";
 import type { ModeConfig } from "./modes";
 
 export type Visual =
@@ -238,6 +238,17 @@ export function mathQuestion(
     answer: String(exercise.answer),
     answerLabel: context.format(exercise.answer),
     adaptive: true,
+  };
+}
+
+export function translateMath(step: QuestionStep, context: BuildContext): QuestionStep {
+  const texts = fromItem(step.itemId, step.visual, { messages: context.messages, format: context.format });
+  if (!texts) return step;
+  return {
+    ...step,
+    ...texts,
+    choices: step.choices.map((choice) => ({ ...choice, label: context.format(Number(choice.id)) })),
+    answerLabel: context.format(Number(step.answer)),
   };
 }
 

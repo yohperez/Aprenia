@@ -79,7 +79,7 @@ export function LearnView({ step, onNext }: { step: LearnStep; onNext: () => voi
   useEffect(() => {
     button.current?.focus();
     if (shouldAutoSpeak()) say(step.speech, { itemId: step.itemId });
-  }, [step.key]);
+  }, [step.key, step.speech]);
   return (
     <>
       <section class="exercise learn">
@@ -109,7 +109,7 @@ interface QuestionViewProps {
 export function QuestionView({ step, selected, reveal, onAnswer }: QuestionViewProps) {
   useEffect(() => {
     if (shouldAutoSpeak()) say(step.speech);
-  }, [step.key]);
+  }, [step.key, step.speech]);
 
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {

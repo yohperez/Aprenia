@@ -1,5 +1,6 @@
 import { ACTIVE_LOCALES, SOON_LOCALES, t } from "../i18n";
 import { changeLocale } from "../lib/account";
+import { notify } from "../lib/announce";
 import { say } from "../lib/voice";
 import { dialog, session, settings } from "../state";
 import { Dialog } from "./Dialog";
@@ -7,12 +8,15 @@ import { Icon } from "./Icon";
 import { SpeakButton } from "./Speak";
 
 function toggleColorBlind(): void {
-  settings.value = { ...settings.value, colorBlind: !settings.value.colorBlind };
+  const colorBlind = !settings.value.colorBlind;
+  settings.value = { ...settings.value, colorBlind };
+  notify(colorBlind ? t.value.colorBlindOn : t.value.colorBlindOff);
 }
 
 function toggleReadAloud(): void {
   const readAloud = !settings.value.readAloud;
   settings.value = { ...settings.value, readAloud };
+  notify(readAloud ? t.value.readAloudOn : t.value.readAloudOff);
   if (readAloud) say(t.value.readAloudOn);
 }
 

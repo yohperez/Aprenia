@@ -3,7 +3,7 @@ import { Loading, Redirect } from "./components/Common";
 import { InfoDialog, LanguageDialog, Nav } from "./components/Nav";
 import { t } from "./i18n";
 import { sync } from "./lib/account";
-import { announcement } from "./lib/announce";
+import { announcement, notice } from "./lib/announce";
 import { loadPack, packStatus } from "./lib/content";
 import type { Pack } from "./lib/types";
 import { LessonScreen } from "./screens/Lesson";
@@ -87,6 +87,11 @@ export function App() {
       {route.value[0] !== "lesson" && <Footer />}
       <InfoDialog />
       <LanguageDialog />
+      {notice.value && (
+        <p class="toast" aria-hidden="true">
+          {notice.value}
+        </p>
+      )}
       <p class="sr-only" aria-live="polite">
         {announcement.value}
       </p>

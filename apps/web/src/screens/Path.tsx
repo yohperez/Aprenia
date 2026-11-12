@@ -8,7 +8,7 @@ import { read, write } from "../lib/storage";
 import type { Lesson, Pack } from "../lib/types";
 import { currentLesson, openLevel } from "../learning/progress";
 import { modeOf } from "../learning/modes";
-import { profile, progress, settings } from "../state";
+import { profile, progress, settings, subjectsHome } from "../state";
 
 function Resources({ source, subjectId }: { source: Pack; subjectId: string }) {
   const m = t.value;
@@ -72,7 +72,7 @@ export function PathScreen({ source, subjectId }: { source: Pack; subjectId: str
   const open = openLevel(subject.level, lessons, progress.value);
   const current = currentLesson(subject.level, lessons, progress.value);
   return (
-    <Screen title={m.subjects[subjectId] ?? subjectId} back="subjects">
+    <Screen title={m.subjects[subjectId] ?? subjectId} back={subjectsHome()}>
       <p class="lead">{m.level(formatNumber(open))}</p>
       <ol class="path">
         {lessons.map((lesson) => {

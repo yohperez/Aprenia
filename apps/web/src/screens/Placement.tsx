@@ -40,7 +40,7 @@ export function PlacementScreen({ source, subjectId }: { source: Pack; subjectId
   const question = useMemo(() => {
     const lesson = lessons.find((item) => item.level === level) ?? lessons[0];
     return lesson ? buildPlacementQuestion(lesson, contextFor(source), answers.length) : null;
-  }, [answers.length, level]);
+  }, [answers.length, level, source.locale]);
 
   if (result !== null) return <PlacementResult subjectId={subjectId} level={result} />;
   if (!question) return null;
