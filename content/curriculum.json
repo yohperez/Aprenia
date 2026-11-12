@@ -1,0 +1,171 @@
+{
+  "subjects": [
+    {
+      "id": "language",
+      "status": "live",
+      "image": "1f4d6",
+      "position": 0
+    },
+    {
+      "id": "math",
+      "status": "live",
+      "image": "1f522",
+      "position": 1
+    },
+    {
+      "id": "technology",
+      "status": "live",
+      "image": "1f4bb",
+      "position": 2
+    },
+    {
+      "id": "history",
+      "status": "soon",
+      "image": "1f3db",
+      "position": 3
+    },
+    {
+      "id": "science",
+      "status": "soon",
+      "image": "1f52c",
+      "position": 4
+    },
+    {
+      "id": "culture",
+      "status": "soon",
+      "image": "1f30d",
+      "position": 5
+    },
+    {
+      "id": "art",
+      "status": "soon",
+      "image": "1f3a8",
+      "position": 6
+    }
+  ],
+  "lessons": [
+    {
+      "id": "language-1",
+      "subject": "language",
+      "level": 1,
+      "kind": "vocabulary",
+      "items": [
+        "apple",
+        "banana",
+        "bread",
+        "water",
+        "milk",
+        "egg"
+      ]
+    },
+    {
+      "id": "language-2",
+      "subject": "language",
+      "level": 2,
+      "kind": "vocabulary",
+      "items": [
+        "dog",
+        "cat",
+        "cow",
+        "horse",
+        "chicken",
+        "fish"
+      ]
+    },
+    {
+      "id": "language-3",
+      "subject": "language",
+      "level": 3,
+      "kind": "vocabulary",
+      "items": [
+        "house",
+        "door",
+        "window",
+        "bed",
+        "chair",
+        "key"
+      ]
+    },
+    {
+      "id": "math-1",
+      "subject": "math",
+      "level": 1,
+      "kind": "math",
+      "items": [],
+      "math": {
+        "op": "count",
+        "min": 1,
+        "max": 5,
+        "object": "apple"
+      }
+    },
+    {
+      "id": "math-2",
+      "subject": "math",
+      "level": 2,
+      "kind": "math",
+      "items": [],
+      "math": {
+        "op": "count",
+        "min": 1,
+        "max": 10,
+        "object": "star"
+      }
+    },
+    {
+      "id": "math-3",
+      "subject": "math",
+      "level": 3,
+      "kind": "math",
+      "items": [],
+      "math": {
+        "op": "add",
+        "min": 0,
+        "max": 10,
+        "object": "orange"
+      }
+    },
+    {
+      "id": "technology-1",
+      "subject": "technology",
+      "level": 1,
+      "kind": "vocabulary",
+      "items": [
+        "phone",
+        "computer",
+        "keyboard",
+        "battery",
+        "plug",
+        "camera"
+      ]
+    },
+    {
+      "id": "technology-2",
+      "subject": "technology",
+      "level": 2,
+      "kind": "vocabulary",
+      "items": [
+        "lock",
+        "settings",
+        "magnifier",
+        "link",
+        "internet",
+        "email"
+      ]
+    },
+    {
+      "id": "technology-3",
+      "subject": "technology",
+      "level": 3,
+      "kind": "safety",
+      "items": [
+        "privacy_share_password",
+        "privacy_long_password",
+        "privacy_home_address",
+        "privacy_trusted_adult",
+        "privacy_photos_strangers",
+        "privacy_log_out"
+      ]
+    }
+  ]
+}
