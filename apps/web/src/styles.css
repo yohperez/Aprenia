@@ -149,10 +149,17 @@ button:disabled {
 }
 
 .nav-brand {
-  font-weight: 800;
-  font-size: 1.25rem;
-  text-decoration: none;
-  letter-spacing: -0.02em;
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+  padding-inline: 4px;
+  border-radius: 10px;
+}
+
+.nav-brand img {
+  display: block;
+  inline-size: 40px;
+  block-size: auto;
 }
 
 .nav-actions {
@@ -336,29 +343,14 @@ button:disabled {
   gap: 24px;
 }
 
-.home-mark {
-  position: relative;
-  display: grid;
-  place-items: center;
-  padding: 24px 32px;
+.home-logo {
+  margin: 0;
+  line-height: 0;
 }
 
-.sun {
-  position: absolute;
-  inline-size: 9.5rem;
-  block-size: 9.5rem;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, var(--sun) 0 58%, rgb(245 165 36 / 0.25) 59% 100%);
-  inset-block-start: -0.5rem;
-  inset-inline-end: -1.5rem;
-}
-
-.wordmark {
-  position: relative;
-  font-size: clamp(4rem, 22vw, 6.5rem);
-  font-weight: 800;
-  letter-spacing: -0.05em;
-  line-height: 1;
+.home-logo img {
+  inline-size: clamp(160px, 46vw, 220px);
+  block-size: auto;
 }
 
 .tagline {

@@ -25,8 +25,8 @@ export function Nav() {
   const { colorBlind, readAloud, locale } = settings.value;
   return (
     <header class="nav">
-      <a class="nav-brand" href="#/">
-        Yara
+      <a class="nav-brand" href="#/" aria-label="Yara">
+        <img src="/brand/butterfly.webp" alt="" width="40" height="30" decoding="async" />
       </a>
       <div class="nav-actions">
         <button

@@ -18,10 +18,16 @@ export function Home() {
   useReadAloud(`Yara. ${m.tagline}`);
   return (
     <main class="screen home" id="main">
-      <div class="home-mark">
-        <span class="sun" aria-hidden="true" />
-        <h1 class="wordmark">Yara</h1>
-      </div>
+      <h1 class="home-logo">
+        <img
+          src="/brand/logo.webp"
+          alt="Yara"
+          width="200"
+          height="212"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </h1>
       <p class="tagline">{m.tagline}</p>
       <div class="home-actions">
         <button

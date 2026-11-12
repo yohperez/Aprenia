@@ -16,7 +16,7 @@ function serviceWorker(): Plugin {
       const template = readFileSync(resolve(root, "src/sw.js"), "utf8");
       const output = template
         .replace("__VERSION__", version)
-        .replace("__PRECACHE__", JSON.stringify(["/", "/manifest.webmanifest", "/icon.svg", ...files]));
+        .replace("__PRECACHE__", JSON.stringify(["/", "/manifest.webmanifest", "/brand/icon-192.png", "/brand/logo.webp", "/brand/butterfly.webp", ...files]));
       writeFileSync(resolve(options.dir ?? "dist", "sw.js"), output);
     },
   };
