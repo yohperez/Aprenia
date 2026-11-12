@@ -145,6 +145,7 @@ El detalle de las políticas utilizadas por la aplicación se encuentra en [`con
 
 Gracias a las personas que han contribuido al proyecto:
 
+- [5nhn007] (https://github.com/5nhn007)
 - [yohperez](https://github.com/yohperez)
 - [Isabela-Tellez](https://github.com/Isabela-Tellez)
 
