@@ -1,8 +1,8 @@
-<p align="center">
-  <img src="assets/logo_fondo.png" alt="Logo de Yara" width="260">
-</p>
+<h1>Yara🦋</h1>
 
-<h1 align="center">Yara</h1>
+<p align="center">
+  <img src="assets/logo_fondo.png" alt="Logo de Yara" width="320">
+</p>
 
 <p align="center"><strong>Aprender sin límites</strong><br>
 Una plataforma educativa inclusiva para aprender a tu ritmo.</p>
