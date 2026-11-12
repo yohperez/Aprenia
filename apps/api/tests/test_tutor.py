@@ -140,10 +140,6 @@ def test_items_must_belong_to_the_lesson(client):
     assert ask(client, headers, item_id="rocket", intent="explain").status_code == 422
     assert ask(client, headers, lesson_id="math-3", item_id="add-9-5", intent="explain").status_code == 422
     assert ask(client, headers, lesson_id="math-3", item_id="add-2-3", intent="explain").status_code == 200
-    safety = ask(
-        client, headers, lesson_id="technology-3", item_id="privacy_share_password", intent="explain"
-    )
-    assert safety.status_code == 200
 
 
 def test_requests_need_an_intent_or_a_question(client):

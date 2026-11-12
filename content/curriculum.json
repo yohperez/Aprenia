@@ -14,7 +14,7 @@
     },
     {
       "id": "technology",
-      "status": "live",
+      "status": "soon",
       "image": "1f4bb",
       "position": 2
     },
@@ -124,48 +124,6 @@
         "max": 10,
         "object": "orange"
       }
-    },
-    {
-      "id": "technology-1",
-      "subject": "technology",
-      "level": 1,
-      "kind": "vocabulary",
-      "items": [
-        "phone",
-        "computer",
-        "keyboard",
-        "battery",
-        "plug",
-        "camera"
-      ]
-    },
-    {
-      "id": "technology-2",
-      "subject": "technology",
-      "level": 2,
-      "kind": "vocabulary",
-      "items": [
-        "lock",
-        "settings",
-        "magnifier",
-        "link",
-        "internet",
-        "email"
-      ]
-    },
-    {
-      "id": "technology-3",
-      "subject": "technology",
-      "level": 3,
-      "kind": "safety",
-      "items": [
-        "privacy_share_password",
-        "privacy_long_password",
-        "privacy_home_address",
-        "privacy_trusted_adult",
-        "privacy_photos_strangers",
-        "privacy_log_out"
-      ]
     }
   ]
 }

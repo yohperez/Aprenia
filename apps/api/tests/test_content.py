@@ -57,8 +57,8 @@ def test_pack_contains_everything_for_offline_use(client):
     assert pack["locale"] == "ur" and pack["rtl"] is True
     assert len(pack["concepts"]) == RECOVERY_WORDLIST_SIZE
     assert pack["concepts"][0] == {"id": "dog", "category": "animals", "image": "1f436", "word": "کتا"}
-    assert {s["id"] for s in pack["subjects"] if s["status"] == "live"} == {"language", "math", "technology"}
-    assert len(pack["lessons"]) == 9
+    assert {s["id"] for s in pack["subjects"] if s["status"] == "live"} == {"language", "math"}
+    assert len(pack["lessons"]) == 6
     lesson_items = {
         item for lesson in pack["lessons"] if lesson["kind"] == "vocabulary" for item in lesson["items"]
     }
