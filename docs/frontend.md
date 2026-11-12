@@ -80,7 +80,8 @@ The progress screen lists each live subject with its level, finished lessons and
 - The score is the share of questions right on the first try. 50% or more finishes the lesson and opens the next one.
 - The placement test has 5 questions and starts by age: level 1 for ages 5-9, 2 for 10-14, 4 for 15-59 and 3 for 60+. Right goes up a level, wrong goes down. "Start from zero" always starts at level 1.
 - Coming soon lessons appear locked at the end of each path.
-- With the goal "I need free training", the path also lists free YouTube links for that subject, in the learner's language or in English when there are none.
+- With the goal "I need free training", the subjects screen opens with free YouTube links for every live subject, and each subject screen and path repeats the links for that subject, in the learner's language or in English when there are none.
+- The goals are: learn something new, free training and going back to school. Technology is chosen as a subject, not as a goal.
 
 ## Age modes
 

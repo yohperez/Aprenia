@@ -8,7 +8,7 @@ import { lessonsOf, upcomingLessonsOf } from "../lib/content";
 import { read, write } from "../lib/storage";
 import type { Lesson, Pack } from "../lib/types";
 import { currentLesson, openLevel } from "../learning/progress";
-import { progress, settings, subjectsHome } from "../state";
+import { progress, settings } from "../state";
 
 function lessonAudio(source: Pack, lesson: Lesson): string[] {
   return lesson.items.filter((item) => source.audio[item]);
@@ -46,7 +46,7 @@ export function PathScreen({ source, subjectId }: { source: Pack; subjectId: str
   const open = openLevel(subject.level, lessons, progress.value);
   const current = currentLesson(subject.level, lessons, progress.value);
   return (
-    <Screen title={m.subjects[subjectId] ?? subjectId} back={subjectsHome()}>
+    <Screen title={m.subjects[subjectId] ?? subjectId} back="subjects">
       <p class="lead">{m.level(formatNumber(open))}</p>
       <FreeVideos source={source} subjectId={subjectId} />
       <ol class="path">

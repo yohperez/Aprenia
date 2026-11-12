@@ -1181,6 +1181,18 @@ button:disabled {
   inline-size: 100%;
 }
 
+.resource-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  inline-size: 100%;
+}
+
+.resource-group h3 {
+  margin: 6px 0 0;
+  font-size: 1rem;
+}
+
 .resource {
   display: flex;
   align-items: center;

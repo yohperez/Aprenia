@@ -1,14 +1,14 @@
 import { Redirect, Screen } from "../components/Common";
 import { Picture } from "../components/Picture";
-import { FreeVideos } from "../components/Resources";
+import { AllFreeVideos, FreeVideos } from "../components/Resources";
 import { t } from "../i18n";
 import { saveSubject, updateProfile } from "../lib/account";
 import type { Goal, Subject } from "../lib/types";
 import { AGE_BANDS, bandLimits } from "../learning/modes";
 import { say, shouldAutoSpeak } from "../lib/voice";
-import { afterGoal, navigate, pack, profile, subjectsHome, subjectStart } from "../state";
+import { navigate, pack, profile, subjectStart } from "../state";
 
-const GOALS: Goal[] = ["learn_new", "learn_tech", "free_training", "resume_studies"];
+const GOALS: Goal[] = ["learn_new", "free_training", "resume_studies"];
 const GOAL_SUBJECTS: Record<Goal, string[]> = {
   learn_new: ["language", "math"],
   learn_tech: ["technology", "math", "language"],
@@ -38,7 +38,7 @@ export function AgeScreen() {
               onClick={() => {
                 speakIfEnabled(label);
                 updateProfile({ ageBand: band });
-                navigate(profile.value.goal ? afterGoal() : "goal");
+                navigate(profile.value.goal ? "subjects" : "goal");
               }}
             >
               <span dir="ltr">{to ? `${from}-${to}` : `${from}+`}</span>
@@ -65,7 +65,7 @@ export function GoalScreen() {
             onClick={() => {
               speakIfEnabled(m.goals[goal]);
               updateProfile({ goal });
-              navigate(afterGoal());
+              navigate("subjects");
             }}
           >
             <strong>{m.goals[goal]}</strong>
@@ -94,6 +94,7 @@ export function Subjects() {
   const recommended = subjects.find((subject) => subject.status === "live")?.id;
   return (
     <Screen title={m.subjectsTitle} back="goal">
+      <AllFreeVideos source={source} />
       <div class="subject-grid">
         {subjects.map((subject) => {
           const name = m.subjects[subject.id] ?? subject.id;
@@ -125,7 +126,7 @@ export function Know({ subjectId }: { subjectId: string }) {
   const m = t.value;
   const name = m.subjects[subjectId] ?? subjectId;
   return (
-    <Screen title={m.knowTitle(name)} back={subjectsHome()}>
+    <Screen title={m.knowTitle(name)} back="subjects">
       <div class="stack">
         <button type="button" class="tile tile-action" onClick={() => navigate(`placement/${subjectId}`)}>
           <strong>{m.knowYes}</strong>
