@@ -21,7 +21,7 @@ jobs:
       - uses: docker/build-push-action@v6
         with:
           context: .            # raíz del repo
-          file: ./Dockerfile    # cambia la ruta si está en otro sitio
+          file: ./apps/api/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/yara-api:skeleton-base
           cache-from: type=gha
