@@ -1,0 +1,124 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "id": "tech_internet_what",
+      "answer": 0,
+      "concept": "internet"
+    },
+    {
+      "id": "tech_browser_what",
+      "answer": 0,
+      "concept": "computer"
+    },
+    {
+      "id": "tech_address_bar",
+      "answer": 0,
+      "concept": "keyboard"
+    },
+    {
+      "id": "tech_link_what",
+      "answer": 0,
+      "concept": "link"
+    },
+    {
+      "id": "tech_search_words",
+      "answer": 0,
+      "concept": "magnifier"
+    },
+    {
+      "id": "tech_check_sources",
+      "answer": 0,
+      "concept": "magnifier"
+    },
+    {
+      "id": "ai_what",
+      "answer": 0,
+      "concept": "robot"
+    },
+    {
+      "id": "ai_mistakes",
+      "answer": 0,
+      "concept": "robot"
+    },
+    {
+      "id": "ai_private_data",
+      "answer": 0,
+      "concept": "lock"
+    },
+    {
+      "id": "ai_good_use",
+      "answer": 0,
+      "concept": "book"
+    },
+    {
+      "id": "ai_person",
+      "answer": 0,
+      "concept": "message"
+    },
+    {
+      "id": "ai_images",
+      "answer": 0,
+      "concept": "camera"
+    },
+    {
+      "id": "lang_sentence_drink",
+      "answer": 0,
+      "concept": "water"
+    },
+    {
+      "id": "lang_sentence_sleep",
+      "answer": 0,
+      "concept": "bed"
+    },
+    {
+      "id": "lang_sentence_cow",
+      "answer": 0,
+      "concept": "cow"
+    },
+    {
+      "id": "lang_sentence_key",
+      "answer": 0,
+      "concept": "key"
+    },
+    {
+      "id": "lang_sentence_eyes",
+      "answer": 0,
+      "concept": "eye"
+    },
+    {
+      "id": "lang_sentence_write",
+      "answer": 0,
+      "concept": "pencil"
+    },
+    {
+      "id": "lang_read_fruits",
+      "answer": 0,
+      "concept": "apple"
+    },
+    {
+      "id": "lang_read_rain",
+      "answer": 0
+    },
+    {
+      "id": "lang_read_school",
+      "answer": 0,
+      "concept": "bus"
+    },
+    {
+      "id": "lang_read_shop",
+      "answer": 0,
+      "concept": "bread"
+    },
+    {
+      "id": "lang_read_morning",
+      "answer": 0,
+      "concept": "tooth"
+    },
+    {
+      "id": "lang_read_feelings",
+      "answer": 0,
+      "concept": "ball"
+    }
+  ]
+}

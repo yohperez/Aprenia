@@ -1,0 +1,94 @@
+{
+  "statements": [
+    {
+      "id": "privacy_share_password",
+      "set": "privacy",
+      "safe": false
+    },
+    {
+      "id": "privacy_long_password",
+      "set": "privacy",
+      "safe": true
+    },
+    {
+      "id": "privacy_home_address",
+      "set": "privacy",
+      "safe": false
+    },
+    {
+      "id": "privacy_trusted_adult",
+      "set": "privacy",
+      "safe": true
+    },
+    {
+      "id": "privacy_photos_strangers",
+      "set": "privacy",
+      "safe": false
+    },
+    {
+      "id": "privacy_log_out",
+      "set": "privacy",
+      "safe": true
+    },
+    {
+      "id": "habits_official_store",
+      "set": "habits",
+      "safe": true
+    },
+    {
+      "id": "habits_strange_link",
+      "set": "habits",
+      "safe": false
+    },
+    {
+      "id": "habits_update_phone",
+      "set": "habits",
+      "safe": true
+    },
+    {
+      "id": "habits_stranger_requests",
+      "set": "habits",
+      "safe": false
+    },
+    {
+      "id": "habits_cover_screen",
+      "set": "habits",
+      "safe": true
+    },
+    {
+      "id": "habits_share_sms_code",
+      "set": "habits",
+      "safe": false
+    },
+    {
+      "id": "scams_prize_message",
+      "set": "scams",
+      "safe": false
+    },
+    {
+      "id": "scams_check_news",
+      "set": "scams",
+      "safe": true
+    },
+    {
+      "id": "scams_viral_video",
+      "set": "scams",
+      "safe": false
+    },
+    {
+      "id": "scams_secret_request",
+      "set": "scams",
+      "safe": false
+    },
+    {
+      "id": "scams_block_report",
+      "set": "scams",
+      "safe": true
+    },
+    {
+      "id": "scams_public_wifi",
+      "set": "scams",
+      "safe": false
+    }
+  ]
+}
