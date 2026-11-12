@@ -13,7 +13,7 @@ Una plataforma educativa inclusiva para aprender a tu ritmo.</p>
 
 <p align="center">
   <a href="https://yara-4v3b.onrender.com/">
-    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fyara-4v3b.onrender.com%2F" alt="Código QR para abrir Yara" width="180" height="180">
+    <img src="assets/qr-code.png" alt="Código QR para abrir Yara" width="180" height="180">
   </a>
   <br><sub>Escanea el código para entrar a la aplicación.</sub>
 </p>
@@ -145,9 +145,11 @@ El detalle de las políticas utilizadas por la aplicación se encuentra en [`con
 
 Gracias a las personas que han contribuido al proyecto:
 
-- [5nhn007] (https://github.com/5nhn007)
+- [5nhn007](https://github.com/5nhn007)
 - [yohperez](https://github.com/yohperez)
 - [Isabela-Tellez](https://github.com/Isabela-Tellez)
+- [iruperth](https://github.com/iruperth)
+- []
 
 Las contribuciones al repositorio pueden consultarse en la [página de contribuidores](https://github.com/yohperez/Yara/graphs/contributors). Si formas parte del equipo y falta tu nombre, puedes abrir un Pull Request para actualizar esta sección.
 
