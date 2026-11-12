@@ -66,7 +66,8 @@ export function navigate(path: string): void {
 }
 
 export function subjectStart(subjectId: string): string {
-  return progress.value.subjects[subjectId] ? `path/${subjectId}` : `know/${subjectId}`;
+  if (progress.value.subjects[subjectId]) return `path/${subjectId}`;
+  return profile.value.goal === "resume_studies" ? `placement/${subjectId}` : `know/${subjectId}`;
 }
 
 export function nextStep(): string {

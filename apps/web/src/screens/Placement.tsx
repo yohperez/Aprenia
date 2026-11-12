@@ -9,7 +9,7 @@ import { say, shouldAutoSpeak } from "../lib/voice";
 import { contextFor } from "../learning/context";
 import { buildPlacementQuestion } from "../learning/exercises";
 import { nextLevel, PLACEMENT_QUESTIONS, placementResult, type PlacementAnswer } from "../learning/placement";
-import { mode, navigate } from "../state";
+import { mode, navigate, profile } from "../state";
 
 const ADVANCE_DELAY_MS = 450;
 
@@ -65,7 +65,10 @@ export function PlacementScreen({ source, subjectId }: { source: Pack; subjectId
   };
 
   return (
-    <Screen title={m.placementTitle} back={`know/${subjectId}`}>
+    <Screen
+      title={m.placementTitle}
+      back={profile.value.goal === "resume_studies" ? "subjects" : `know/${subjectId}`}
+    >
       <p class="muted">
         {m.placementQuestion(formatNumber(answers.length + 1), formatNumber(PLACEMENT_QUESTIONS))}
       </p>

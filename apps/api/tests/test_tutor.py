@@ -1,9 +1,12 @@
+import json
+
+import httpx
 import pytest
 from sqlalchemy import select
 
 from tests.conftest import auth, create_guest, reply
 from yara_api.models import TutorEvent
-from yara_api.tutor.providers import ProviderError
+from yara_api.tutor.providers import GeminiProvider, ProviderError
 
 
 def learner(client, age_band: str, locale: str = "es") -> dict[str, str]:
@@ -182,3 +185,43 @@ def test_maths_help_describes_the_exercise(client, provider):
     headers = learner(client, "15-19")
     ask(client, headers, lesson_id="math-6", item_id="prob-12-9", intent="explain")
     assert "has 12 coins and gets 9 more. The answer is 21" in provider.calls[0].system
+
+
+def gemini_client(handler) -> GeminiProvider:
+    return GeminiProvider("key", "gemini-test", 5, httpx.Client(transport=httpx.MockTransport(handler)))
+
+
+def test_gemini_provider_sends_the_prompt_and_reads_the_answer(client, app):
+    seen = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen["url"] = str(request.url)
+        seen["key"] = request.headers["x-goog-api-key"]
+        seen["body"] = json.loads(request.content)
+        text = reply("manzana es una fruta")
+        return httpx.Response(200, json={"candidates": [{"content": {"parts": [{"text": text}]}}]})
+
+    app.state.tutor.provider = gemini_client(handler)
+    response = ask(client, learner(client, "5-9"), intent="explain").json()
+    assert response["status"] == "ok" and "manzana" in response["answer"]
+    assert seen["url"].endswith("/models/gemini-test:generateContent") and seen["key"] == "key"
+    assert "Reply only in Spanish" in seen["body"]["systemInstruction"]["parts"][0]["text"]
+    assert seen["body"]["generationConfig"]["responseMimeType"] == "application/json"
+    assert {item["threshold"] for item in seen["body"]["safetySettings"]} == {"BLOCK_LOW_AND_ABOVE"}
+
+
+@pytest.mark.parametrize(
+    "payload",
+    [
+        {"promptFeedback": {"blockReason": "SAFETY"}},
+        {"candidates": [{"finishReason": "SAFETY", "content": {"parts": []}}]},
+    ],
+)
+def test_gemini_safety_blocks_become_blocked_answers(client, app, payload):
+    app.state.tutor.provider = gemini_client(lambda request: httpx.Response(200, json=payload))
+    assert ask(client, learner(client, "5-9"), intent="explain").json()["status"] == "blocked"
+
+
+def test_gemini_errors_are_reported_as_unavailable(client, app):
+    app.state.tutor.provider = gemini_client(lambda request: httpx.Response(500))
+    assert ask(client, learner(client, "5-9"), intent="explain").json()["status"] == "unavailable"

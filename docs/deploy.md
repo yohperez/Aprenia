@@ -29,7 +29,9 @@ The free web service sleeps when idle, so the first visit after a pause takes ab
 | `YARA_DATABASE_URL` | Postgres connection string. `postgres://` and `postgresql://` are both accepted | yes |
 | `YARA_RECOVERY_PEPPER` | Random secret of at least 32 characters (`openssl rand -hex 32`). Never change it after launch, or the 6 words stop working | yes |
 | `YARA_TRUST_PROXY_HEADERS` | `true` | yes |
-| `YARA_TUTOR_PROVIDER` | `anthropic` for real AI help, `fake` for a demo without a key, `none` to hide it | yes |
+| `YARA_TUTOR_PROVIDER` | `gemini` or `anthropic` for real AI help, `fake` for a demo without a key, `none` to hide it | yes |
+| `YARA_GEMINI_API_KEY` | Key from aistudio.google.com | with `gemini` |
+| `YARA_GEMINI_MODEL` | `gemini-3.5-flash-lite` (default) or another Gemini text model | no |
 | `YARA_ANTHROPIC_API_KEY` | Key from console.anthropic.com | with `anthropic` |
 | `YARA_TUTOR_MODEL` | `claude-haiku-5-5` | no |
 | `YARA_GUEST_LIMIT` / `YARA_RECOVER_LIMIT` | New guests per hour and recovery attempts per 15 minutes from one connection. Defaults are 30 and 10; `render.yaml` raises them to 300 and 60 because at a live demo everyone shares the venue Wi-Fi | no |

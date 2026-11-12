@@ -26,9 +26,11 @@ class Settings(BaseSettings):
     guest_window_seconds: int = 3600
 
     tutor_enabled: bool = True
-    tutor_provider: Literal["anthropic", "fake", "none"] = "none"
+    tutor_provider: Literal["anthropic", "gemini", "fake", "none"] = "none"
     anthropic_api_key: str | None = None
     tutor_model: str = "claude-haiku-5-5"
+    gemini_api_key: str | None = None
+    gemini_model: str = "gemini-3.5-flash-lite"
     tutor_timeout_seconds: float = 15.0
     tutor_preset_daily_limit: int = 40
     tutor_text_daily_limit: int = 20

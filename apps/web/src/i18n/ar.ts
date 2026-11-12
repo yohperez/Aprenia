@@ -61,6 +61,12 @@ export const ar: Messages = {
   },
   forYou: "لك",
   subjectsTitle: "ماذا تودّ أن تتعلّم اليوم؟",
+  goalIntro: {
+    learn_new: "اختر مادة وابدأ من الأساسيات، خطوة بخطوة.",
+    learn_tech: "اختر مادة وابدأ من الأساسيات، خطوة بخطوة.",
+    free_training: "اختر مادة. إليك فيديوهات مجانية لتتدرّب أكثر.",
+    resume_studies: "اختر مادة: سنقوم باختبار قصير وتتابع من مستواك.",
+  },
   subjects: {
     language: "اللغة",
     math: "الرياضيات",

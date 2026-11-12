@@ -11,7 +11,7 @@ from yara_api.tutor.context import LessonContext, build_context
 from yara_api.tutor.output import check_output
 from yara_api.tutor.policies import Policy, PolicyIndex
 from yara_api.tutor.prompts import build_prompt
-from yara_api.tutor.providers import ProviderError, TutorProvider
+from yara_api.tutor.providers import ProviderBlocked, ProviderError, TutorProvider
 from yara_api.tutor.redaction import redact
 from yara_api.tutor.screening import is_injection, is_on_topic, screen_text
 
@@ -85,6 +85,8 @@ class TutorService:
         prompt = build_prompt(context, age_band, request.locale, policies, request.intent, question)
         try:
             raw = self.provider.complete(prompt)
+        except ProviderBlocked:
+            return TutorOutcome("blocked", reason="provider_safety", policies=policies)
         except ProviderError:
             return TutorOutcome("unavailable", reason="provider_error", policies=policies)
         check = check_output(raw, context, age_band, request.locale)

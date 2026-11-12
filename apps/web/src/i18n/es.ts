@@ -59,6 +59,12 @@ export const es = {
   },
   forYou: "Para ti",
   subjectsTitle: "¿Qué te gustaría aprender hoy?",
+  goalIntro: {
+    learn_new: "Elige una materia y empieza por lo más básico, paso a paso.",
+    learn_tech: "Elige una materia y empieza por lo más básico, paso a paso.",
+    free_training: "Elige una materia. Aquí tienes vídeos gratis para practicar más.",
+    resume_studies: "Elige una materia: haremos una prueba corta y seguirás desde tu nivel.",
+  },
   subjects: {
     language: "Lengua",
     math: "Matemáticas",

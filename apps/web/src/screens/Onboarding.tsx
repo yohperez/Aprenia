@@ -94,6 +94,7 @@ export function Subjects() {
   const recommended = subjects.find((subject) => subject.status === "live")?.id;
   return (
     <Screen title={m.subjectsTitle} back="goal">
+      {profile.value.goal && <p class="lead">{m.goalIntro[profile.value.goal]}</p>}
       <AllFreeVideos source={source} />
       <div class="subject-grid">
         {subjects.map((subject) => {
