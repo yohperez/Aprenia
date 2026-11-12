@@ -9,6 +9,7 @@ export const es = {
   sound: "Sonido",
   soundOn: "Sonido activado",
   soundOff: "Sonido desactivado: no sonará nada",
+  noVoice: "Este dispositivo no tiene voz en español. Puedes instalarla en los ajustes de voz del teléfono.",
   soundOffHint: "El sonido está desactivado. Actívalo con el altavoz de arriba.",
   colorBlindOn: "Modo daltónico activado: acierto en azul y error en naranja, siempre con ✓ y ✗",
   colorBlindOff: "Colores normales: acierto en verde y error en rojo",

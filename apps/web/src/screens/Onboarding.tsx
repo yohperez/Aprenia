@@ -1,5 +1,6 @@
 import { Redirect, Screen } from "../components/Common";
 import { Picture } from "../components/Picture";
+import { FreeVideos } from "../components/Resources";
 import { t } from "../i18n";
 import { saveSubject, updateProfile } from "../lib/account";
 import type { Goal, Subject } from "../lib/types";
@@ -142,6 +143,7 @@ export function Know({ subjectId }: { subjectId: string }) {
           <span class="muted">{m.knowNoHint}</span>
         </button>
       </div>
+      {pack.value && <FreeVideos source={pack.value} subjectId={subjectId} />}
     </Screen>
   );
 }

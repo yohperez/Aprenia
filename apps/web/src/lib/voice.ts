@@ -1,4 +1,6 @@
+import { t } from "../i18n";
 import { mode, pack, settings } from "../state";
+import { notify } from "./announce";
 import { audioUrl } from "./api";
 import type { Locale } from "./types";
 
@@ -43,20 +45,33 @@ const FEMALE =
 const MALE =
   /pablo|[aá]lvaro|jorge|juan|ra[uú]l|diego|carlos|gerardo|tom[aá]s|naayf|hamed|majed|shakir|taim|moaz|omar|bassel|hamdan|jamal|rami|saleh|tarik|hedi|ismael|zaid|laith|\bmale\b|hombre/i;
 
-function voiceScore(voice: SpeechSynthesisVoice): number {
+const PREFERRED_REGION: Record<string, string> = { es: "es-es", ar: "ar-sa" };
+const NOVELTY =
+  /eddy|flo\b|grandma|grandpa|reed|rocko|sandy|shelley|bahh|bells|boing|bubbles|cellos|wobble|good news|bad news|jester|organ|superstar|trinoids|whisper|zarvox|albert|fred|junior|kathy|ralph/i;
+const LEGACY_DESKTOP = /^microsoft (?!.*(online|natural|neural))/i;
+const HIGH_QUALITY = /google|premium|enhanced|siri|natural|neural|online/i;
+
+function normalizedLang(voice: SpeechSynthesisVoice): string {
+  return voice.lang.toLowerCase().replace("_", "-");
+}
+
+function voiceScore(voice: SpeechSynthesisVoice, locale: Locale): number {
+  const online = typeof navigator === "undefined" || navigator.onLine;
   let score = 0;
-  if (FEMALE.test(voice.name) && !MALE.test(voice.name)) score += 4;
-  if (MALE.test(voice.name)) score -= 4;
-  const natural = /natural|neural|online/i.test(voice.name);
-  if (natural && navigator.onLine) score += 2;
-  if (natural && !navigator.onLine) score -= 3;
-  if (voice.localService) score += 1;
+  if (normalizedLang(voice) === PREFERRED_REGION[locale]) score += 3;
+  if (NOVELTY.test(voice.name)) score -= 8;
+  if (LEGACY_DESKTOP.test(voice.name)) score -= 2;
+  if (HIGH_QUALITY.test(voice.name)) score += online ? 4 : 0;
+  if (!voice.localService && !online) score -= 10;
+  if (FEMALE.test(voice.name) && !MALE.test(voice.name)) score += 2;
+  if (MALE.test(voice.name)) score -= 3;
+  if (voice.localService) score += 0.5;
   return score;
 }
 
 function voiceFor(locale: Locale): SpeechSynthesisVoice | null {
-  const matches = voices.filter((voice) => voice.lang.toLowerCase().replace("_", "-").startsWith(locale));
-  return [...matches].sort((a, b) => voiceScore(b) - voiceScore(a))[0] ?? null;
+  const matches = voices.filter((voice) => normalizedLang(voice).startsWith(locale));
+  return [...matches].sort((a, b) => voiceScore(b, locale) - voiceScore(a, locale))[0] ?? null;
 }
 
 function hasFemaleVoice(voice: SpeechSynthesisVoice | null): boolean {
@@ -110,6 +125,10 @@ export function say(raw: string, options: SayOptions = {}): void {
     return;
   }
   if (!synth) return;
+  if (!voice && voices.length > 0) {
+    warnMissingVoice(locale);
+    return;
+  }
   const job = () => speakNow(text, locale, voice);
   if (options.queue) {
     if (pendingTimer) backlog.push(job);
@@ -131,6 +150,14 @@ function flush(): void {
   const jobs = backlog;
   backlog = [];
   jobs.forEach((job) => job());
+}
+
+const warnedLocales = new Set<string>();
+
+function warnMissingVoice(locale: Locale): void {
+  if (warnedLocales.has(locale)) return;
+  warnedLocales.add(locale);
+  notify(t.value.noVoice);
 }
 
 export function shouldAutoSpeak(): boolean {

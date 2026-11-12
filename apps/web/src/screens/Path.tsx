@@ -1,40 +1,14 @@
 import { useState } from "preact/hooks";
 import { Redirect, Screen } from "../components/Common";
 import { Icon } from "../components/Icon";
+import { FreeVideos } from "../components/Resources";
 import { formatNumber, t } from "../i18n";
 import { audioUrl } from "../lib/api";
 import { lessonsOf, upcomingLessonsOf } from "../lib/content";
 import { read, write } from "../lib/storage";
 import type { Lesson, Pack } from "../lib/types";
 import { currentLesson, openLevel } from "../learning/progress";
-import { modeOf } from "../learning/modes";
-import { profile, progress, settings, subjectsHome } from "../state";
-
-function Resources({ source, subjectId }: { source: Pack; subjectId: string }) {
-  const m = t.value;
-  const links = source.resources.filter((resource) => resource.subject === subjectId);
-  if (!links.length) return null;
-  const minor = ["early", "junior", "teen"].includes(modeOf(profile.value.ageBand));
-  return (
-    <section class="tile resources" aria-labelledby="resources-title">
-      <h2 id="resources-title">{m.resourcesTitle}</h2>
-      <p class="muted small">
-        {m.resourcesHint} {minor ? m.resourcesMinor : ""}
-      </p>
-      <ul class="stack" role="list">
-        {links.map((link) => (
-          <li key={link.id}>
-            <a class="resource" href={link.url} target="_blank" rel="noopener noreferrer">
-              <Icon name="play" size={20} />
-              <span dir="auto">{link.title}</span>
-              {link.locale !== settings.value.locale && <span class="badge">{m.inEnglish}</span>}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-}
+import { progress, settings, subjectsHome } from "../state";
 
 function lessonAudio(source: Pack, lesson: Lesson): string[] {
   return lesson.items.filter((item) => source.audio[item]);
@@ -74,6 +48,7 @@ export function PathScreen({ source, subjectId }: { source: Pack; subjectId: str
   return (
     <Screen title={m.subjects[subjectId] ?? subjectId} back={subjectsHome()}>
       <p class="lead">{m.level(formatNumber(open))}</p>
+      <FreeVideos source={source} subjectId={subjectId} />
       <ol class="path">
         {lessons.map((lesson) => {
           const entry = progress.value.lessons[lesson.id];
@@ -129,7 +104,6 @@ export function PathScreen({ source, subjectId }: { source: Pack; subjectId: str
           </li>
         ))}
       </ol>
-      {profile.value.goal === "free_training" && <Resources source={source} subjectId={subjectId} />}
       <div class="note">
         <Icon name="check" size={20} />
         <span>{m.savedOffline}</span>

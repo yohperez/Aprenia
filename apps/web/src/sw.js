@@ -33,11 +33,21 @@ async function cacheFirst(request, cacheName) {
   return response;
 }
 
-async function shellFirst(request) {
+const NAVIGATION_TIMEOUT_MS = 3500;
+
+async function networkFirst(request) {
   const cache = await caches.open(SHELL);
-  const cached = await cache.match("/");
-  if (cached) return cached;
-  return fetch(request);
+  try {
+    const response = await Promise.race([
+      fetch(request),
+      new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), NAVIGATION_TIMEOUT_MS)),
+    ]);
+    if (response.ok) cache.put("/", response.clone());
+    return response;
+  } catch {
+    const cached = await cache.match("/");
+    return cached || Response.error();
+  }
 }
 
 self.addEventListener("fetch", (event) => {
@@ -50,7 +60,7 @@ self.addEventListener("fetch", (event) => {
   }
   if (url.origin !== self.location.origin || url.pathname.startsWith("/v1/")) return;
   if (request.mode === "navigate") {
-    event.respondWith(shellFirst(request));
+    event.respondWith(networkFirst(request));
     return;
   }
   event.respondWith(cacheFirst(request, SHELL));

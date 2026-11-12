@@ -17,6 +17,10 @@ services:
         generateValue: true
       - key: YARA_TRUST_PROXY_HEADERS
         value: "true"
+      - key: YARA_GUEST_LIMIT
+        value: "300"
+      - key: YARA_RECOVER_LIMIT
+        value: "60"
       - key: YARA_TUTOR_PROVIDER
         value: anthropic
       - key: YARA_TUTOR_MODEL

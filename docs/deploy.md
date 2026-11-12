@@ -32,6 +32,7 @@ The free web service sleeps when idle, so the first visit after a pause takes ab
 | `YARA_TUTOR_PROVIDER` | `anthropic` for real AI help, `fake` for a demo without a key, `none` to hide it | yes |
 | `YARA_ANTHROPIC_API_KEY` | Key from console.anthropic.com | with `anthropic` |
 | `YARA_TUTOR_MODEL` | `claude-haiku-5-5` | no |
+| `YARA_GUEST_LIMIT` / `YARA_RECOVER_LIMIT` | New guests per hour and recovery attempts per 15 minutes from one connection. Defaults are 30 and 10; `render.yaml` raises them to 300 and 60 because at a live demo everyone shares the venue Wi-Fi | no |
 | `YARA_AZURE_SPEECH_KEY` / `YARA_AZURE_SPEECH_REGION` | Azure AI Speech key and region, only needed to record audio for devices without a voice | no |
 
 Render generates the pepper and links the database by itself; Railway needs both set by hand.
