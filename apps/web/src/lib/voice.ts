@@ -5,7 +5,7 @@ import { audioUrl } from "./api";
 import type { Locale } from "./types";
 
 const synth = typeof window !== "undefined" && "speechSynthesis" in window ? window.speechSynthesis : null;
-const FALLBACK_LANG: Record<string, string> = { es: "es-ES", ar: "ar-SA" };
+const FALLBACK_LANG: Record<string, string> = { es: "es-ES", ar: "ar-SA", en: "en-GB" };
 const SILENT_MARKS = /[¡!¿?؟！？«»"“”„()[\]{}*#~|<>]/g;
 const BLANKS = /_{2,}/g;
 const EMOJI = /\p{Extended_Pictographic}/gu;
@@ -41,11 +41,11 @@ export function speakable(text: string): string {
 }
 
 const FEMALE =
-  /elvira|helena|laura|sabina|dalia|ximena|abril|elena|lucia|paloma|paulina|m[oó]nica|marisol|isabela|esperanza|camila|valentina|salom[eé]|zariyah|salma|hoda|fatima|laila|layla|noura|mouna|rana|iman|amany|reem|sana|amina|female|mujer|google/i;
+  /elvira|helena|laura|sabina|dalia|ximena|abril|elena|lucia|paloma|paulina|m[oó]nica|marisol|isabela|esperanza|camila|valentina|salom[eé]|zariyah|salma|hoda|fatima|laila|layla|noura|mouna|rana|iman|amany|reem|sana|amina|samantha|karen|serena|moira|tessa|zira|jenny|aria|libby|sonia|hazel|susan|kate|fiona|victoria|allison|ava|female|mujer|google/i;
 const MALE =
-  /pablo|[aá]lvaro|jorge|juan|ra[uú]l|diego|carlos|gerardo|tom[aá]s|naayf|hamed|majed|shakir|taim|moaz|omar|bassel|hamdan|jamal|rami|saleh|tarik|hedi|ismael|zaid|laith|\bmale\b|hombre/i;
+  /pablo|[aá]lvaro|jorge|juan|ra[uú]l|diego|carlos|gerardo|tom[aá]s|naayf|hamed|majed|shakir|taim|moaz|omar|bassel|hamdan|jamal|rami|saleh|tarik|hedi|ismael|zaid|laith|daniel|\balex\b|fred|david|\bmark\b|\bguy\b|ryan|george|thomas|oliver|\bmale\b|hombre/i;
 
-const PREFERRED_REGION: Record<string, string> = { es: "es-es", ar: "ar-sa" };
+const PREFERRED_REGION: Record<string, string> = { es: "es-es", ar: "ar-sa", en: "en-gb" };
 const NOVELTY =
   /eddy|flo\b|grandma|grandpa|reed|rocko|sandy|shelley|bahh|bells|boing|bubbles|cellos|wobble|good news|bad news|jester|organ|superstar|trinoids|whisper|zarvox|albert|fred|junior|kathy|ralph/i;
 const LEGACY_DESKTOP = /^microsoft (?!.*(online|natural|neural))/i;

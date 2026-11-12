@@ -106,6 +106,7 @@ The progress screen lists each live subject with its level, finished lessons and
 Target: WCAG 2.2 AA.
 
 - `lang` and `dir` are set on `<html>`, and Arabic uses RTL through logical CSS properties.
+- Active languages: Spanish (default), Arabic (picked automatically on Arabic devices) and English (only when the learner chooses it).
 - Every control is a real `<button>` or `<a>` with an accessible name. A picture option is named by its word.
 - Feedback is announced through an `aria-live` region. Dialogs use `<dialog>` with focus trapping and Escape to close.
 - The focus ring is visible: 3px `--sun` with an ink offset.
