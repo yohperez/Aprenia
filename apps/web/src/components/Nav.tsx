@@ -1,7 +1,7 @@
 import { ACTIVE_LOCALES, SOON_LOCALES, t } from "../i18n";
 import { changeLocale } from "../lib/account";
 import { notify } from "../lib/announce";
-import { say } from "../lib/voice";
+import { say, stopSpeaking } from "../lib/voice";
 import { dialog, session, settings } from "../state";
 import { Dialog } from "./Dialog";
 import { Icon } from "./Icon";
@@ -13,16 +13,17 @@ function toggleColorBlind(): void {
   notify(colorBlind ? t.value.colorBlindOn : t.value.colorBlindOff);
 }
 
-function toggleReadAloud(): void {
-  const readAloud = !settings.value.readAloud;
-  settings.value = { ...settings.value, readAloud };
-  notify(readAloud ? t.value.readAloudOn : t.value.readAloudOff);
-  if (readAloud) say(t.value.readAloudOn);
+function toggleSound(): void {
+  const sound = !settings.value.sound;
+  settings.value = { ...settings.value, sound };
+  notify(sound ? t.value.soundOn : t.value.soundOff);
+  if (sound) say(t.value.soundOn);
+  else stopSpeaking();
 }
 
 export function Nav() {
   const m = t.value;
-  const { colorBlind, readAloud, locale } = settings.value;
+  const { colorBlind, sound, locale } = settings.value;
   return (
     <header class="nav">
       <a class="nav-brand" href="#/" aria-label="Yara">
@@ -51,12 +52,12 @@ export function Nav() {
         <button
           type="button"
           class="icon-button"
-          aria-pressed={readAloud}
-          onClick={toggleReadAloud}
-          aria-label={m.readAloud}
-          title={m.readAloud}
+          aria-pressed={sound}
+          onClick={toggleSound}
+          aria-label={m.sound}
+          title={m.sound}
         >
-          <Icon name={readAloud ? "speaker" : "mute"} />
+          <Icon name={sound ? "speaker" : "mute"} />
         </button>
         <button
           type="button"

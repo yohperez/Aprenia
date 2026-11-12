@@ -94,7 +94,11 @@ The progress screen lists each live subject with its level, finished lessons and
 
 ## Voice
 
-The browser speech engine (Web Speech API) reads words, prompts and feedback. When the device has no voice for the language, the app plays the recorded MP3 from `/v1/audio`, if one exists. "Read aloud" in the navbar makes every screen speak its title and every exercise speak its prompt.
+- The speaker button in the navbar turns all sound on or off. Sound is on by default. When it is off nothing plays: no automatic reading, no words on tap and no listen buttons (those show a short notice instead).
+- The browser speech engine (Web Speech API) reads words, prompts and feedback. The app picks a female voice when the device has one (for example Microsoft Helena or Elvira, Google español, Microsoft Zariyah or Hoda for Arabic). Online neural voices are used only while there is a connection.
+- When the device has no female voice and a recorded MP3 exists, it plays the recording made with Microsoft neural voices, which are also female (es-ES-ElviraNeural, ar-SA-ZariyahNeural). Otherwise it keeps the voice the device has.
+- Punctuation that some engines read aloud (¡ ! ¿ ? ؟ « ») is removed before speaking.
+- Ages 5 to 14 and 60 or more hear prompts and screen titles automatically; tapping an option always says it aloud.
 
 ## Accessibility
 

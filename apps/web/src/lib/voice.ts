@@ -4,7 +4,7 @@ import type { Locale } from "./types";
 
 const synth = typeof window !== "undefined" && "speechSynthesis" in window ? window.speechSynthesis : null;
 const FALLBACK_LANG: Record<string, string> = { es: "es-ES", ar: "ar-SA" };
-const SILENT_MARKS = /[¡!¿?«»"“”„()[\]{}*#~|<>]/g;
+const SILENT_MARKS = /[¡!¿?؟！？«»"“”„()[\]{}*#~|<>]/g;
 const BLANKS = /_{2,}/g;
 const EMOJI = /\p{Extended_Pictographic}/gu;
 const RESTART_DELAY_MS = 60;
@@ -38,14 +38,29 @@ export function speakable(text: string): string {
     .trim();
 }
 
+const FEMALE =
+  /elvira|helena|laura|sabina|dalia|ximena|abril|elena|lucia|paloma|paulina|m[oó]nica|marisol|isabela|esperanza|camila|valentina|salom[eé]|zariyah|salma|hoda|fatima|laila|layla|noura|mouna|rana|iman|amany|reem|sana|amina|female|mujer|google/i;
+const MALE =
+  /pablo|[aá]lvaro|jorge|juan|ra[uú]l|diego|carlos|gerardo|tom[aá]s|naayf|hamed|majed|shakir|taim|moaz|omar|bassel|hamdan|jamal|rami|saleh|tarik|hedi|ismael|zaid|laith|\bmale\b|hombre/i;
+
+function voiceScore(voice: SpeechSynthesisVoice): number {
+  let score = 0;
+  if (FEMALE.test(voice.name) && !MALE.test(voice.name)) score += 4;
+  if (MALE.test(voice.name)) score -= 4;
+  const natural = /natural|neural|online/i.test(voice.name);
+  if (natural && navigator.onLine) score += 2;
+  if (natural && !navigator.onLine) score -= 3;
+  if (voice.localService) score += 1;
+  return score;
+}
+
 function voiceFor(locale: Locale): SpeechSynthesisVoice | null {
   const matches = voices.filter((voice) => voice.lang.toLowerCase().replace("_", "-").startsWith(locale));
-  return (
-    matches.find((voice) => voice.localService && voice.default) ??
-    matches.find((voice) => voice.localService) ??
-    matches[0] ??
-    null
-  );
+  return [...matches].sort((a, b) => voiceScore(b) - voiceScore(a))[0] ?? null;
+}
+
+function hasFemaleVoice(voice: SpeechSynthesisVoice | null): boolean {
+  return voice !== null && FEMALE.test(voice.name) && !MALE.test(voice.name);
 }
 
 export function hasVoice(locale: Locale): boolean {
@@ -83,12 +98,13 @@ function speakNow(text: string, locale: Locale, voice: SpeechSynthesisVoice | nu
 }
 
 export function say(raw: string, options: SayOptions = {}): void {
+  if (!settings.value.sound) return;
   const text = speakable(raw);
   if (!text) return;
   const locale = settings.value.locale;
   const voice = voiceFor(locale);
   const recorded = options.itemId && pack.value?.audio[options.itemId] ? options.itemId : null;
-  if (!voice && recorded) {
+  if (recorded && !hasFemaleVoice(voice)) {
     stopSpeaking();
     playRecorded(locale, recorded);
     return;
@@ -118,5 +134,5 @@ function flush(): void {
 }
 
 export function shouldAutoSpeak(): boolean {
-  return settings.value.readAloud || mode.value.autoSpeak;
+  return settings.value.sound && mode.value.autoSpeak;
 }

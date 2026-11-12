@@ -4,8 +4,8 @@ import { t } from "../i18n";
 import { saveSubject, updateProfile } from "../lib/account";
 import type { Goal, Subject } from "../lib/types";
 import { AGE_BANDS, bandLimits } from "../learning/modes";
-import { say } from "../lib/voice";
-import { afterGoal, navigate, pack, profile, settings, subjectsHome, subjectStart } from "../state";
+import { say, shouldAutoSpeak } from "../lib/voice";
+import { afterGoal, navigate, pack, profile, subjectsHome, subjectStart } from "../state";
 
 const GOALS: Goal[] = ["learn_new", "learn_tech", "free_training", "resume_studies"];
 const GOAL_SUBJECTS: Record<Goal, string[]> = {
@@ -16,7 +16,7 @@ const GOAL_SUBJECTS: Record<Goal, string[]> = {
 };
 
 function speakIfEnabled(text: string): void {
-  if (settings.value.readAloud) say(text);
+  if (shouldAutoSpeak()) say(text);
 }
 
 export function AgeScreen() {

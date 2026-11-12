@@ -7,7 +7,7 @@ import { MODES, modeOf } from "./learning/modes";
 export interface Settings {
   locale: ActiveLocale;
   colorBlind: boolean;
-  readAloud: boolean;
+  sound: boolean;
 }
 
 export interface Session {
@@ -33,9 +33,15 @@ export type Dialog = "info" | "language" | "signin" | null;
 const browserLanguages =
   typeof navigator === "undefined" ? [] : (navigator.languages ?? [navigator.language]);
 
-export const settings = signal<Settings>(
-  read("settings", { locale: detectLocale(browserLanguages), colorBlind: false, readAloud: false }),
-);
+function normalizeSettings(saved: Partial<Settings>): Settings {
+  return {
+    locale: saved.locale ?? detectLocale(browserLanguages),
+    colorBlind: saved.colorBlind ?? false,
+    sound: saved.sound ?? true,
+  };
+}
+
+export const settings = signal<Settings>(normalizeSettings(read<Partial<Settings>>("settings", {})));
 export const session = signal<Session | null>(read("session", null));
 export const profile = signal<LocalProfile>(read("profile", { ageBand: null, goal: null, dirty: false }));
 export const progress = signal<ProgressState>(read("progress", { subjects: {}, lessons: {}, pending: [] }));
